@@ -6,43 +6,48 @@ author: makskay
 main: me.makskay.bukkit.tidy.TidyPlugin
 
 commands:
+  comment:
+    description: Adds a comment to an issue.
+    usage: /<command> <issue ID> <comment>
+    permission: tidy.user
+    permission-message: You don't have permission to comment on issues!
   helpme:
     description: Requests help from the server staff.
     usage: /<command> <issue description>
-    permission: tidy.helpme
+    permission: tidy.user
     permission-message: You don't have permission to request help with an issue!
+  investigate:
+    description: Teleports to the saved location for an issue.
+    usage: /<command> <issue ID>
+    permission: tidy.staff
+    permission-message: You don't have permission to investigate issues!
+  issue:
+    description: Prints detailed information about an issue.
+    usage: /<command> <issue ID>
+    permission: tidy.user
+    permission-message: You don't have permission to view detailed issue information!
   issues:
     description: Lists issue reports.
     usage: /<command> [page number] [-all]
-    permission: tidy.issues.own
+    permission: tidy.user
     permission-message: You don't have permission to list issue reports!
+  redirect:
+    description: Closes an issue and redirects discussion elsewhere.
+    usage: /<command> <issue to close> <issue to refer to>
+    permission: tidy.staff
+    permission-message: You don't have permission to redirect issues!
   reopen:
     description: Marks a resolved issue as open.
-    usage: /<command> <issue ID> <opening comment>
-    permission: tidy.reopen
+    usage: /<command> <issue ID> <reason>
+    permission: tidy.user
     permission-message: You don't have permission to mark issues as open!
   resolve:
     description: Marks an open issue as resolved.
-    usage: /<command> <issue ID> <closing comment>
-    permission: tidy.resolve
+    usage: /<command> <issue ID> <reason>
+    permission: tidy.user
     permission-message: You don't have permission to mark issues as resolved!
-    
-permissions:
-  tidy.staff.*:
-    description: Gives access to all Tidy moderation and common-user commands.
-    children:
-      tidy.listissues.others: true
-      tidy.reopen.others:     true
-      tidy.resolve.others:    true
-      tidy.user.*:            true
-  tidy.user.*:
-    description: Gives access to all Tidy common-user commands.
-    children:
-      tidy.listissues.own: true
-      tidy.reopen.own:     true
-      tidy.resolve.own:    true
-  tidy.listissues.*:
-    description: Gives access to list all issues.
-    children:
-      tidy.listissues.others: true
-      tidy.listissues.own:    true
+  sticky:
+    description: Marks an issue as sticky (persistent even if marked resolved).
+    usage: /<command> <issue ID> <reason>
+    permission: tidy.staff
+    permission-message: You don't have permission to mark issues as sticky!
