@@ -1,0 +1,48 @@
+name: Tidy
+description: Ticket and ban management
+version: 1.0
+author: makskay
+
+main: me.makskay.bukkit.tidy.TidyPlugin
+
+commands:
+  helpme:
+    description: Requests help from the server staff.
+    usage: /<command> <issue description>
+    permission: tidy.helpme
+    permission-message: You don't have permission to request help with an issue!
+  issues:
+    description: Lists issue reports.
+    usage: /<command> [page number] [-all]
+    permission: tidy.issues.own
+    permission-message: You don't have permission to list issue reports!
+  reopen:
+    description: Marks a resolved issue as open.
+    usage: /<command> <issue ID> <opening comment>
+    permission: tidy.reopen
+    permission-message: You don't have permission to mark issues as open!
+  resolve:
+    description: Marks an open issue as resolved.
+    usage: /<command> <issue ID> <closing comment>
+    permission: tidy.resolve
+    permission-message: You don't have permission to mark issues as resolved!
+    
+permissions:
+  tidy.staff.*:
+    description: Gives access to all Tidy moderation and common-user commands.
+    children:
+      tidy.listissues.others: true
+      tidy.reopen.others:     true
+      tidy.resolve.others:    true
+      tidy.user.*:            true
+  tidy.user.*:
+    description: Gives access to all Tidy common-user commands.
+    children:
+      tidy.listissues.own: true
+      tidy.reopen.own:     true
+      tidy.resolve.own:    true
+  tidy.listissues.*:
+    description: Gives access to list all issues.
+    children:
+      tidy.listissues.others: true
+      tidy.listissues.own:    true
