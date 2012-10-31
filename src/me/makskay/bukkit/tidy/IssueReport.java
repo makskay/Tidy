@@ -12,7 +12,7 @@ public class IssueReport {
 	private int uid; // the ID number by which the issue is uniquely identifiable
 	private Location location; // the location from which this issue was filed
 	private ArrayList<String> comments;
-	private boolean isOpen, isSticky;
+	private boolean isOpen, isSticky, hasChanged;
 	
 	public IssueReport(String ownerName, String description, int uid, Location location) {
 		this.ownerName   = ownerName;
@@ -22,6 +22,7 @@ public class IssueReport {
 		this.comments    = new ArrayList<String>();
 		this.isOpen      = true;
 		this.isSticky    = false;
+		this.hasChanged  = false;
 	}
 	
 	public IssueReport(String ownerName, String description, int uid, Location location, List<String> comments, boolean isOpen, boolean isSticky) {
@@ -32,6 +33,7 @@ public class IssueReport {
 		this.comments    = new ArrayList<String>();
 		this.isOpen      = isOpen;
 		this.isSticky    = isSticky;
+		this.hasChanged  = false;
 		
 		this.comments.addAll(comments);
 	}
@@ -58,7 +60,7 @@ public class IssueReport {
 		return true;
 	}
 	
-	public boolean setSticky(boolean sticky) {
+	public boolean toggleSticky() {
 		isSticky = !isSticky;
 		return isSticky;
 	}
@@ -72,11 +74,15 @@ public class IssueReport {
 		return (player.getName().equals(ownerName)) || (player.hasPermission("tidy.staff"));
 	}
 	
-	public boolean getOpen() {
+	public boolean isIntact() { // used to verify that this issue is valid on disk (and not producing corrupted cache objects)
+		return (ownerName != null) && (description != null) && (uid > 0) && (location != null) && (comments != null);
+	}
+	
+	public boolean isOpen() {
 		return isOpen;
 	}
 	
-	public boolean getSticky() {
+	public boolean isSticky() {
 		return isSticky;
 	}
 	
@@ -98,5 +104,9 @@ public class IssueReport {
 	
 	public Location getLocation() {
 		return location;
+	}
+	
+	public boolean hasChanged() {
+		return hasChanged;
 	}
 }

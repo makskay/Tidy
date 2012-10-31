@@ -20,7 +20,7 @@ public class IssueManager {
 		
 		for (int uid : plugin.issuesYml.getConfig().getIntegerList("OpenIssueIDs")) {
 			try {
-				String path = "issues." + uid + ".";
+				String path           = "issues." + uid + ".";
 				String ownerName      = plugin.issuesYml.getConfig().getString(path + "owner");
 				String description    = plugin.issuesYml.getConfig().getString(path + "description");
 				String[] locAsString  = plugin.issuesYml.getConfig().getString(path + "location").split(",");
@@ -28,9 +28,14 @@ public class IssueManager {
 						Integer.parseInt(locAsString[2]), Integer.parseInt(locAsString[3]));
 				List<String> comments = plugin.issuesYml.getConfig().getStringList(path + "comments");
 				boolean isSticky      = plugin.issuesYml.getConfig().getBoolean(path + "sticky");
+				
 				IssueReport issue = new IssueReport(ownerName, description, uid, loc, comments, true, isSticky);
-				cachedIssues.put(uid, issue);
-			} catch (Exception e) {
+				if (issue.isIntact()) {
+					cachedIssues.put(uid, issue);
+				}
+			}
+			
+			catch (Exception e) {
 				continue; // the issue entry is corrupt and can't be deciphered -- move on to the next one
 			}
 		}
@@ -53,9 +58,25 @@ public class IssueManager {
 			return issue;
 		}
 		
-		// TODO Try to create an issue object from data in issues.yml
-		
-		return null; // if no issue with that UID exists
+		try {
+			String path           = "issues." + uid + ".";
+			String ownerName      = plugin.issuesYml.getConfig().getString(path + "owner");
+			String description    = plugin.issuesYml.getConfig().getString(path + "description");
+			String[] locAsString  = plugin.issuesYml.getConfig().getString(path + "location").split(",");
+			Location loc          = new Location(Bukkit.getWorld(locAsString[0]), Integer.parseInt(locAsString[1]), 
+					Integer.parseInt(locAsString[2]), Integer.parseInt(locAsString[3]));
+			List<String> comments = plugin.issuesYml.getConfig().getStringList(path + "comments");
+			boolean isOpen        = plugin.issuesYml.getConfig().getBoolean(path + "open");
+			boolean isSticky      = plugin.issuesYml.getConfig().getBoolean(path + "sticky");
+			
+			issue = new IssueReport(ownerName, description, uid, loc, comments, isOpen, isSticky);
+			if (issue.isIntact()) {
+				cachedIssues.put(uid, issue);
+			}
+			return issue;
+		} catch (Exception e) {
+			return null; // no issue with that UID exists
+		}
 	}
 	
 	private void incrementNextUid() {
