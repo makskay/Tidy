@@ -1,21 +1,48 @@
 package me.makskay.bukkit.tidy;
 
+import me.makskay.bukkit.tidy.commands.CommentCommand;
+import me.makskay.bukkit.tidy.commands.HelpmeCommand;
+import me.makskay.bukkit.tidy.commands.InvestigateCommand;
+import me.makskay.bukkit.tidy.commands.IssueCommand;
+import me.makskay.bukkit.tidy.commands.IssuesCommand;
+import me.makskay.bukkit.tidy.commands.RedirectCommand;
+import me.makskay.bukkit.tidy.commands.ReopenCommand;
+import me.makskay.bukkit.tidy.commands.ResolveCommand;
+import me.makskay.bukkit.tidy.commands.StickyCommand;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class TidyPlugin extends JavaPlugin {
 	private ConfigAccessor configYml, issuesYml;
 	private IssueManager issueManager;
+	private PlayerManager playerManager;
 	
 	public void onEnable() {
 		configYml = new ConfigAccessor(this, "config.yml");
 		issuesYml = new ConfigAccessor(this, "issues.yml");
-		issueManager = new IssueManager(this);
+		
+		issueManager  = new IssueManager(this);
+		playerManager = new PlayerManager(this);
+		
+		getCommand("comment").setExecutor(new CommentCommand(this));
+		getCommand("helpme").setExecutor(new HelpmeCommand(this));
+		getCommand("investigate").setExecutor(new InvestigateCommand(this));
+		getCommand("issue").setExecutor(new IssueCommand(this));
+		getCommand("issues").setExecutor(new IssuesCommand(this));
+		getCommand("redirect").setExecutor(new RedirectCommand(this));
+		getCommand("reopen").setExecutor(new ReopenCommand(this));
+		getCommand("resolve").setExecutor(new ResolveCommand(this));
+		getCommand("sticky").setExecutor(new StickyCommand(this));
 		
 		Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
 	}
 	
 	public IssueManager getIssueManager() {
 		return issueManager;
+	}
+	
+	public PlayerManager getPlayerManager() {
+		return playerManager;
 	}
 }

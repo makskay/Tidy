@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 public class IssueReport {
 	private String ownerName, description;
@@ -54,6 +55,10 @@ public class IssueReport {
 				+ location.getBlockY() + "," + location.getBlockZ();
 	}
 	
+	public boolean canBeEditedBy(Player player) {
+		return (player.getName().equals(ownerName)) || (player.hasPermission("tidy.staff"));
+	}
+	
 	public boolean getOpen() {
 		return isOpen;
 	}
@@ -76,5 +81,9 @@ public class IssueReport {
 	
 	public int getUid() {
 		return uid;
+	}
+	
+	public Location getLocation() {
+		return location;
 	}
 }

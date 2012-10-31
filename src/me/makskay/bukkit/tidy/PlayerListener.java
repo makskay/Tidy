@@ -6,11 +6,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class PlayerListener implements Listener {
-	private TidyPlugin plugin;
 	private IssueManager issueManager;
 	
 	public PlayerListener(TidyPlugin plugin) {
-		this.plugin = plugin;
 		this.issueManager = plugin.getIssueManager();
 	}
 
