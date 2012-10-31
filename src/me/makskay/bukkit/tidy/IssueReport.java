@@ -1,6 +1,7 @@
 package me.makskay.bukkit.tidy;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -21,6 +22,18 @@ public class IssueReport {
 		this.comments    = new ArrayList<String>();
 		this.isOpen      = true;
 		this.isSticky    = false;
+	}
+	
+	public IssueReport(String ownerName, String description, int uid, Location location, List<String> comments, boolean isOpen, boolean isSticky) {
+		this.ownerName   = ownerName;
+		this.description = description;
+		this.uid         = uid;
+		this.location    = location;
+		this.comments    = new ArrayList<String>();
+		this.isOpen      = isOpen;
+		this.isSticky    = isSticky;
+		
+		this.comments.addAll(comments);
 	}
 	
 	public void addComment(String authorName, String comment) {
