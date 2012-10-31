@@ -14,7 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class TidyPlugin extends JavaPlugin {
-	private ConfigAccessor configYml, issuesYml;
+	ConfigAccessor configYml, issuesYml;
 	private IssueManager issueManager;
 	private PlayerManager playerManager;
 	
@@ -22,7 +22,7 @@ public class TidyPlugin extends JavaPlugin {
 		configYml = new ConfigAccessor(this, "config.yml");
 		issuesYml = new ConfigAccessor(this, "issues.yml");
 		
-		issueManager  = new IssueManager(this);
+		issueManager  = new IssueManager(this, issuesYml.getConfig().getInt("NextIssueUID"));
 		playerManager = new PlayerManager(this);
 		
 		getCommand("comment").setExecutor(new CommentCommand(this));

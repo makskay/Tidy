@@ -6,15 +6,18 @@ import org.bukkit.Location;
 
 public class IssueManager {
 	private HashMap<Integer, IssueReport> cachedIssues;
+	private TidyPlugin plugin;
 	private int nextUid;
 	
-	public IssueManager(TidyPlugin plugin) {
+	public IssueManager(TidyPlugin plugin, int nextUid) {
+		this.plugin  = plugin;
+		this.nextUid = nextUid;
 	}
 	
 	public void registerIssue(String ownerName, String description, Location loc) {
 		IssueReport issue = new IssueReport(ownerName, description, nextUid, loc);
 		cachedIssues.put(nextUid, issue); // pull this issue into cached memory
-		nextUid++; // the next issue will be assigned the next greatest integer as a UID
+		incrementNextUid(); // the next issue will be assigned the next greatest integer as a UID
 	}
 	
 	public void purge() {
@@ -31,5 +34,11 @@ public class IssueManager {
 		// TODO Try to create an issue object from data in issues.yml
 		
 		return null; // if no issue with that UID exists
+	}
+	
+	private void incrementNextUid() {
+		nextUid++;
+		plugin.issuesYml.getConfig().set("NextIssueUID", nextUid);
+		plugin.issuesYml.saveConfig();
 	}
 }
