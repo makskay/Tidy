@@ -9,9 +9,12 @@ public class IssueManager {
 	private TidyPlugin plugin;
 	private int nextUid;
 	
-	public IssueManager(TidyPlugin plugin, int nextUid) {
+	public IssueManager(TidyPlugin plugin) {
 		this.plugin  = plugin;
-		this.nextUid = nextUid;
+		this.nextUid = plugin.issuesYml.getConfig().getInt("NextIssueUID");
+		if (nextUid == 0) {
+			plugin.getLogger().warning("Your issues.yml file is corrupted. Deleting it and allowing to regenerate is recommended.");
+		}
 	}
 	
 	public void registerIssue(String ownerName, String description, Location loc) {

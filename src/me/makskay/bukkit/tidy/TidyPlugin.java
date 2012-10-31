@@ -22,7 +22,7 @@ public class TidyPlugin extends JavaPlugin {
 		configYml = new ConfigAccessor(this, "config.yml");
 		issuesYml = new ConfigAccessor(this, "issues.yml");
 		
-		issueManager  = new IssueManager(this, issuesYml.getConfig().getInt("NextIssueUID"));
+		issueManager  = new IssueManager(this);
 		playerManager = new PlayerManager(this);
 		
 		getCommand("comment").setExecutor(new CommentCommand(this));
