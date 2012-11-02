@@ -10,6 +10,7 @@ import me.makskay.bukkit.tidy.commands.RedirectCommand;
 import me.makskay.bukkit.tidy.commands.ReopenCommand;
 import me.makskay.bukkit.tidy.commands.ResolveCommand;
 import me.makskay.bukkit.tidy.commands.StickyCommand;
+import me.makskay.bukkit.tidy.tasks.SaveChangedIssuesTask;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -43,6 +44,7 @@ public class TidyPlugin extends JavaPlugin {
 		getCommand("sticky").setExecutor(new StickyCommand(this));
 		
 		Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new SaveChangedIssuesTask(this), 2400L, 2400L); // 2400L = 2 minutes
 	}
 	
 	public IssueManager getIssueManager() {
