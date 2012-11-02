@@ -9,10 +9,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class StickyCommand implements CommandExecutor {
+public class DestickyCommand implements CommandExecutor {
 	private IssueManager issueManager;
 	
-	public StickyCommand(TidyPlugin plugin) {
+	public DestickyCommand(TidyPlugin plugin) {
 		issueManager = plugin.getIssueManager();
 	}
 	
@@ -40,12 +40,12 @@ public class StickyCommand implements CommandExecutor {
 			comment = comment + args[i] + " ";
 		}
 		
-		if (issue.markAsSticky(sender.getName(), comment)) {
-			sender.sendMessage(ChatColor.GRAY + "Stickied issue #" + uid);
+		if (issue.markAsNonSticky(sender.getName(), comment)) {
+			sender.sendMessage(ChatColor.GRAY + "De-stickied issue #" + uid);
 			return true;
 		}
 		
-		sender.sendMessage(ChatColor.RED + "Issue #" + uid + " is already sticky");
+		sender.sendMessage(ChatColor.RED + "Issue #" + uid + " is not stickied");
 		return true;
 	}
 }

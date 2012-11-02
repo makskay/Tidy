@@ -1,5 +1,6 @@
 package me.makskay.bukkit.tidy;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -83,5 +84,13 @@ public class IssueManager {
 		nextUid++;
 		plugin.issuesYml.getConfig().set("NextIssueUID", nextUid);
 		plugin.issuesYml.saveConfig();
+	}
+
+	public List<IssueReport> getCachedIssues() { // TODO this will return numerical order in some cases, but not all
+		ArrayList<IssueReport> issues = new ArrayList<IssueReport>();
+		for (IssueReport issue : cachedIssues.values()) {
+			issues.add(issue);
+		}
+		return issues;
 	}
 }

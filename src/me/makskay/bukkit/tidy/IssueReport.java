@@ -47,6 +47,11 @@ public class IssueReport {
 			return false;
 		}
 		
+		if (isSticky) {
+			markAsNonSticky(authorName, comment);
+			comment = "see preceding de-sticky message for details";
+		}
+		
 		addComment(authorName, "Marked issue as " + ChatColor.GREEN + "open " + ChatColor.WHITE + "(" + comment + ")");
 		return true;
 	}
@@ -60,9 +65,27 @@ public class IssueReport {
 		return true;
 	}
 	
-	public boolean toggleSticky() {
-		isSticky = !isSticky;
-		return isSticky;
+	public boolean markAsSticky(String authorName, String comment) {
+		if (isSticky) {
+			return false;
+		}
+		
+		if (isOpen) {
+			markAsClosed(authorName, comment);
+			comment = "see preceding close message for details";
+		}
+		
+		addComment(authorName, "Marked issue as " + ChatColor.DARK_RED + "sticky " + ChatColor.WHITE + "(" + comment + ")");
+		return true;
+	}
+	
+	public boolean markAsNonSticky(String authorName, String comment) {
+		if (!isSticky) {
+			return false;
+		}
+		
+		addComment(authorName, ChatColor.DARK_GREEN + "De-stickied" + ChatColor.WHITE + " issue (" + comment + ")");
+		return true;
 	}
 	
 	public String getLocationString() {

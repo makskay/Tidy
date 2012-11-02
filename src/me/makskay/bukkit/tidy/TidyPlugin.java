@@ -1,6 +1,7 @@
 package me.makskay.bukkit.tidy;
 
 import me.makskay.bukkit.tidy.commands.CommentCommand;
+import me.makskay.bukkit.tidy.commands.DestickyCommand;
 import me.makskay.bukkit.tidy.commands.HelpmeCommand;
 import me.makskay.bukkit.tidy.commands.InvestigateCommand;
 import me.makskay.bukkit.tidy.commands.IssueCommand;
@@ -14,7 +15,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class TidyPlugin extends JavaPlugin {
-	ConfigAccessor configYml, issuesYml;
+	public ConfigAccessor configYml, issuesYml;
 	private IssueManager issueManager;
 	private PlayerManager playerManager;
 	
@@ -31,6 +32,7 @@ public class TidyPlugin extends JavaPlugin {
 		playerManager = new PlayerManager(this);
 		
 		getCommand("comment").setExecutor(new CommentCommand(this));
+		getCommand("desticky").setExecutor(new DestickyCommand(this));
 		getCommand("helpme").setExecutor(new HelpmeCommand(this));
 		getCommand("investigate").setExecutor(new InvestigateCommand(this));
 		getCommand("issue").setExecutor(new IssueCommand(this));
