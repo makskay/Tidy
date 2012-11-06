@@ -1,15 +1,18 @@
 package me.makskay.bukkit.tidy;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class PlayerListener implements Listener {
-	private IssueManager issueManager;
+	private TidyPlugin plugin;
+	//private IssueManager issueManager;
 	
 	public PlayerListener(TidyPlugin plugin) {
-		this.issueManager = plugin.getIssueManager();
+		this.plugin = plugin;
+		//this.issueManager = plugin.getIssueManager();
 	}
 
 	@EventHandler
@@ -19,7 +22,7 @@ public class PlayerListener implements Listener {
 		int panicLevel = 0;
 		
 		for (String word : message.split(" ")) {
-			if (wordsToWatch.contains(word)) {
+			if (plugin.configYml.getConfig().getStringList("PanicWords").contains(word)) {
 				panicLevel++;
 			}
 		}
@@ -28,8 +31,10 @@ public class PlayerListener implements Listener {
 			panicLevel *= 2;
 		}
 		
-		if (panicLevel > panicThreshhold) { // TODO Make panicThreshhold configurable via "sensitivity" in config.yml or something
-			issueManager.registerIssue(player.getName(), message, player.getLocation());
+		if (panicLevel > plugin.configYml.getConfig().getInt("PanicTolerance")) {
+			player.sendMessage(ChatColor.GRAY + "It looks like you might be having a problem.");
+			player.sendMessage(ChatColor.GRAY + "Consider using /helpme to alert server staff.");
+			//issueManager.registerIssue(player.getName(), message, player.getLocation());
 		}
 	}
 }

@@ -1,5 +1,3 @@
-# Whether or not panicked chat messages will automatically be submitted as issues.
-AutomaticIssueDetection: true
 # Higher panic tolerance values require a chat message to be more panicked before being flagged.
 PanicTolerance: 2
 # A message with more of these words is more likely to be flagged as panicked.
