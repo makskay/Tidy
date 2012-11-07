@@ -20,7 +20,8 @@ public class TidyPlugin extends JavaPlugin {
 	public ConfigAccessor configYml, issuesYml;
 	private IssueManager issueManager;
 	private PlayerManager playerManager;
-	private final int TICKS_PER_MINUTE = 1200;
+	private final long TICKS_PER_MINUTE = 1200L;
+	private long killExpiredIssuesDelay, notifyServerStaffDelay, saveChangedIssuesDelay;
 	
 	public void onEnable() {
 		configYml = new ConfigAccessor(this, "config.yml");
@@ -30,6 +31,10 @@ public class TidyPlugin extends JavaPlugin {
 		configYml.reloadConfig();
 		issuesYml.saveDefaultConfig();
 		issuesYml.reloadConfig();
+		
+		killExpiredIssuesDelay = configYml.getConfig().getLong("MinutesBetweenExpiredIssuePurges") * TICKS_PER_MINUTE;
+		notifyServerStaffDelay = configYml.getConfig().getLong("MinutesBetweenUnresolvedIssueNotifications") * TICKS_PER_MINUTE;
+		saveChangedIssuesDelay = configYml.getConfig().getLong("MinutesBetweenChangedIssueSaves") * TICKS_PER_MINUTE;
 		
 		issueManager  = new IssueManager(this);
 		playerManager = new PlayerManager(this);
@@ -45,9 +50,18 @@ public class TidyPlugin extends JavaPlugin {
 		getCommand("sticky").setExecutor(new StickyCommand(this));
 		
 		Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new KillExpiredIssuesTask(this), 12000L, 12000L); // every 10 minutes
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new NotifyServerStaffTask(this), 6000L, 6000L);   // every  5 minutes
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new SaveChangedIssuesTask(this), 2400L, 2400L);   // every  2 minutes
+		
+		if (killExpiredIssuesDelay > 0) {
+			Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new KillExpiredIssuesTask(this), 0, killExpiredIssuesDelay);
+		}
+		
+		if (notifyServerStaffDelay > 0) {
+			Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new NotifyServerStaffTask(this), 0, notifyServerStaffDelay);
+		}
+		
+		if (saveChangedIssuesDelay > 0) {
+			Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new SaveChangedIssuesTask(this), 0, saveChangedIssuesDelay);
+		}
 	}
 	
 	public IssueManager getIssueManager() {
