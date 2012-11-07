@@ -36,6 +36,7 @@ public class SaveChangedIssuesTask implements Runnable {
 		plugin.issuesYml.getConfig().set(path + "open", issue.isOpen());
 		plugin.issuesYml.getConfig().set(path + "sticky", issue.isSticky());
 		plugin.issuesYml.getConfig().set(path + "comments", issue.getComments());
+		plugin.issuesYml.getConfig().set(path + "timestamp", System.currentTimeMillis());
 		plugin.issuesYml.saveConfig();
 		plugin.issuesYml.reloadConfig();
 	}

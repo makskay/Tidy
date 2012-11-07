@@ -9,6 +9,7 @@ import me.makskay.bukkit.tidy.commands.IssuesCommand;
 import me.makskay.bukkit.tidy.commands.ReopenCommand;
 import me.makskay.bukkit.tidy.commands.ResolveCommand;
 import me.makskay.bukkit.tidy.commands.StickyCommand;
+import me.makskay.bukkit.tidy.tasks.KillExpiredIssuesTask;
 import me.makskay.bukkit.tidy.tasks.SaveChangedIssuesTask;
 
 import org.bukkit.Bukkit;
@@ -42,7 +43,8 @@ public class TidyPlugin extends JavaPlugin {
 		getCommand("sticky").setExecutor(new StickyCommand(this));
 		
 		Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new SaveChangedIssuesTask(this), 2400L, 2400L); // 2400L = 2 minutes
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new SaveChangedIssuesTask(this), 2400L, 2400L); // 2400L = 2 minutes (TODO make the number of minutes configurable)
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new KillExpiredIssuesTask(this), 2400L, 2400L);
 	}
 	
 	public IssueManager getIssueManager() {
