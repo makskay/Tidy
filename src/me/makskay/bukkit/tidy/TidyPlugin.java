@@ -6,7 +6,6 @@ import me.makskay.bukkit.tidy.commands.HelpmeCommand;
 import me.makskay.bukkit.tidy.commands.InvestigateCommand;
 import me.makskay.bukkit.tidy.commands.IssueCommand;
 import me.makskay.bukkit.tidy.commands.IssuesCommand;
-import me.makskay.bukkit.tidy.commands.RedirectCommand;
 import me.makskay.bukkit.tidy.commands.ReopenCommand;
 import me.makskay.bukkit.tidy.commands.ResolveCommand;
 import me.makskay.bukkit.tidy.commands.StickyCommand;
@@ -38,7 +37,6 @@ public class TidyPlugin extends JavaPlugin {
 		getCommand("investigate").setExecutor(new InvestigateCommand(this));
 		getCommand("issue").setExecutor(new IssueCommand(this));
 		getCommand("issues").setExecutor(new IssuesCommand(this));
-		getCommand("redirect").setExecutor(new RedirectCommand(this));
 		getCommand("reopen").setExecutor(new ReopenCommand(this));
 		getCommand("resolve").setExecutor(new ResolveCommand(this));
 		getCommand("sticky").setExecutor(new StickyCommand(this));
