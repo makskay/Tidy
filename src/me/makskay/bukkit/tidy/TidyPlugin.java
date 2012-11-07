@@ -14,10 +14,11 @@ import me.makskay.bukkit.tidy.tasks.NotifyServerStaffTask;
 import me.makskay.bukkit.tidy.tasks.SaveChangedIssuesTask;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class TidyPlugin extends JavaPlugin {
-	public ConfigAccessor configYml, issuesYml;
+	private ConfigAccessor configYml, issuesYml;
 	private IssueManager issueManager;
 	private PlayerManager playerManager;
 	private final long TICKS_PER_MINUTE = 1200L;
@@ -32,9 +33,10 @@ public class TidyPlugin extends JavaPlugin {
 		issuesYml.saveDefaultConfig();
 		issuesYml.reloadConfig();
 		
-		killExpiredIssuesDelay = configYml.getConfig().getLong("MinutesBetweenExpiredIssuePurges") * TICKS_PER_MINUTE;
-		notifyServerStaffDelay = configYml.getConfig().getLong("MinutesBetweenUnresolvedIssueNotifications") * TICKS_PER_MINUTE;
-		saveChangedIssuesDelay = configYml.getConfig().getLong("MinutesBetweenChangedIssueSaves") * TICKS_PER_MINUTE;
+		FileConfiguration config = configYml.getConfig();
+		killExpiredIssuesDelay = config.getLong("MinutesBetweenExpiredIssuePurges") * TICKS_PER_MINUTE;
+		notifyServerStaffDelay = config.getLong("MinutesBetweenUnresolvedIssueNotifications") * TICKS_PER_MINUTE;
+		saveChangedIssuesDelay = config.getLong("MinutesBetweenChangedIssueSaves") * TICKS_PER_MINUTE;
 		
 		issueManager  = new IssueManager(this);
 		playerManager = new PlayerManager(this);
@@ -70,5 +72,21 @@ public class TidyPlugin extends JavaPlugin {
 	
 	public PlayerManager getPlayerManager() {
 		return playerManager;
+	}
+	
+	public FileConfiguration getIssuesFile() {
+		return issuesYml.getConfig();
+	}
+	
+	public FileConfiguration getConfigFile() {
+		return configYml.getConfig();
+	}
+	
+	public ConfigAccessor getIssuesYml() {
+		return issuesYml;
+	}
+	
+	public ConfigAccessor getConfigYml() {
+		return configYml;
 	}
 }

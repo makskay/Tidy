@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.configuration.file.FileConfiguration;
 
 public class IssueManager {
 	private HashMap<Integer, IssueReport> cachedIssues;
@@ -13,22 +14,23 @@ public class IssueManager {
 	private int nextUid;
 	
 	public IssueManager(TidyPlugin plugin) {
+		FileConfiguration issues = plugin.getIssuesFile();
 		this.plugin  = plugin;
-		this.nextUid = plugin.issuesYml.getConfig().getInt("NextIssueUID");
+		this.nextUid = issues.getInt("NextIssueUID");
 		if (nextUid == 0) {
 			plugin.getLogger().warning("Your issues.yml file is corrupted. Deleting it and reloading the server is recommended.");
 		}
 		
-		for (int uid : plugin.issuesYml.getConfig().getIntegerList("OpenIssueIDs")) {
+		for (int uid : issues.getIntegerList("OpenIssueIDs")) {
 			try {
 				String path           = "issues." + uid + ".";
-				String ownerName      = plugin.issuesYml.getConfig().getString(path + "owner");
-				String description    = plugin.issuesYml.getConfig().getString(path + "description");
-				String[] locAsString  = plugin.issuesYml.getConfig().getString(path + "location").split(",");
+				String ownerName      = issues.getString(path + "owner");
+				String description    = issues.getString(path + "description");
+				String[] locAsString  = issues.getString(path + "location").split(",");
 				Location loc          = new Location(Bukkit.getWorld(locAsString[0]), Integer.parseInt(locAsString[1]), 
 						Integer.parseInt(locAsString[2]), Integer.parseInt(locAsString[3]));
-				List<String> comments = plugin.issuesYml.getConfig().getStringList(path + "comments");
-				boolean isSticky      = plugin.issuesYml.getConfig().getBoolean(path + "sticky");
+				List<String> comments = issues.getStringList(path + "comments");
+				boolean isSticky      = issues.getBoolean(path + "sticky");
 				
 				IssueReport issue = new IssueReport(ownerName, description, uid, loc, comments, true, isSticky);
 				if (issue.isIntact()) {
@@ -54,6 +56,7 @@ public class IssueManager {
 	}
 	
 	public IssueReport getIssue(int uid) {
+		FileConfiguration issues = plugin.getIssuesFile();
 		IssueReport issue = cachedIssues.get(uid);
 		if (issue != null) {
 			return issue;
@@ -61,14 +64,14 @@ public class IssueManager {
 		
 		try {
 			String path           = "issues." + uid + ".";
-			String ownerName      = plugin.issuesYml.getConfig().getString(path + "owner");
-			String description    = plugin.issuesYml.getConfig().getString(path + "description");
-			String[] locAsString  = plugin.issuesYml.getConfig().getString(path + "location").split(",");
+			String ownerName      = issues.getString(path + "owner");
+			String description    = issues.getString(path + "description");
+			String[] locAsString  = issues.getString(path + "location").split(",");
 			Location loc          = new Location(Bukkit.getWorld(locAsString[0]), Integer.parseInt(locAsString[1]), 
 					Integer.parseInt(locAsString[2]), Integer.parseInt(locAsString[3]));
-			List<String> comments = plugin.issuesYml.getConfig().getStringList(path + "comments");
-			boolean isOpen        = plugin.issuesYml.getConfig().getBoolean(path + "open");
-			boolean isSticky      = plugin.issuesYml.getConfig().getBoolean(path + "sticky");
+			List<String> comments = issues.getStringList(path + "comments");
+			boolean isOpen        = issues.getBoolean(path + "open");
+			boolean isSticky      = issues.getBoolean(path + "sticky");
 			
 			issue = new IssueReport(ownerName, description, uid, loc, comments, isOpen, isSticky);
 			if (issue.isIntact()) {
@@ -82,8 +85,9 @@ public class IssueManager {
 	
 	private void incrementNextUid() {
 		nextUid++;
-		plugin.issuesYml.getConfig().set("NextIssueUID", nextUid);
-		plugin.issuesYml.saveConfig();
+		ConfigAccessor issuesYml = plugin.getIssuesYml();
+		issuesYml.getConfig().set("NextIssueUID", nextUid);
+		issuesYml.saveConfig();
 	}
 
 	public List<IssueReport> getCachedIssues() { // TODO this will return numerical order in some cases, but not all

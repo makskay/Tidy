@@ -1,6 +1,7 @@
 package me.makskay.bukkit.tidy;
 
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -38,12 +39,13 @@ public class PlayerListener implements Listener {
 
 	@EventHandler (ignoreCancelled = true)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
+		FileConfiguration config = plugin.getConfigFile();
 		String message = event.getMessage();
 		Player player = event.getPlayer();
 		int panicLevel = 0;
 		
 		for (String word : message.split(" ")) {
-			if (plugin.configYml.getConfig().getStringList("PanicWords").contains(word)) {
+			if (config.getStringList("PanicWords").contains(word)) {
 				panicLevel++;
 			}
 		}
@@ -52,7 +54,7 @@ public class PlayerListener implements Listener {
 			panicLevel *= 2;
 		}
 		
-		if (panicLevel > plugin.configYml.getConfig().getInt("PanicTolerance")) {
+		if (panicLevel > config.getInt("PanicTolerance")) {
 			player.sendMessage(ChatColor.GRAY + "It looks like you might be having a problem.");
 			player.sendMessage(ChatColor.GRAY + "Consider using /helpme to alert server staff.");
 			//issueManager.registerIssue(player.getName(), message, player.getLocation());
