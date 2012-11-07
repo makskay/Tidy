@@ -1,7 +1,8 @@
 name: Tidy
-description: Ticket and ban management
+description: Simple issue tracking and management
 version: 1.0
 author: makskay
+website: http://dev.bukkit.org/server-mods/Tidy
 
 main: me.makskay.bukkit.tidy.TidyPlugin
 
@@ -46,3 +47,11 @@ commands:
     usage: /<command> <issue ID> <reason>
     permission: tidy.staff
     permission-message: You don't have permission to mark issues as sticky!
+
+permissions:
+  tidy.user:
+    description: Gives access to Tidy's basic user-level commands
+    default: true
+  tidy.staff:
+    description: Gives access to Tidy's global issue-management commands
+    default: op
