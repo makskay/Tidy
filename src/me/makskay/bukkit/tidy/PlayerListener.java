@@ -5,17 +5,38 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerListener implements Listener {
 	private TidyPlugin plugin;
-	//private IssueManager issueManager;
+	private IssueManager issueManager;
 	
 	public PlayerListener(TidyPlugin plugin) {
 		this.plugin = plugin;
-		//this.issueManager = plugin.getIssueManager();
+		this.issueManager = plugin.getIssueManager();
+	}
+	
+	@EventHandler (ignoreCancelled = true)
+	public void onPlayerJoin(PlayerJoinEvent event) {
+		Player player = event.getPlayer();
+		if (!player.hasPermission("tidy.staff")) {
+			return;
+		}
+		
+		int count = 0;
+		for (IssueReport issue : issueManager.getCachedIssues()) {
+			if (issue.isOpen()) {
+				count++;
+			}
+		}
+		
+		if (count != 0) {
+			event.getPlayer().sendMessage(ChatColor.GRAY + "There are currently " + ChatColor.GREEN + count + 
+					ChatColor.GRAY + " unresolved issues");
+		}
 	}
 
-	@EventHandler
+	@EventHandler (ignoreCancelled = true)
 	public void onPlayerChat(AsyncPlayerChatEvent event) {
 		String message = event.getMessage();
 		Player player = event.getPlayer();
