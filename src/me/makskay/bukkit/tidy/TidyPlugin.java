@@ -10,6 +10,7 @@ import me.makskay.bukkit.tidy.commands.ReopenCommand;
 import me.makskay.bukkit.tidy.commands.ResolveCommand;
 import me.makskay.bukkit.tidy.commands.StickyCommand;
 import me.makskay.bukkit.tidy.tasks.KillExpiredIssuesTask;
+import me.makskay.bukkit.tidy.tasks.NotifyServerStaffTask;
 import me.makskay.bukkit.tidy.tasks.SaveChangedIssuesTask;
 
 import org.bukkit.Bukkit;
@@ -19,6 +20,7 @@ public class TidyPlugin extends JavaPlugin {
 	public ConfigAccessor configYml, issuesYml;
 	private IssueManager issueManager;
 	private PlayerManager playerManager;
+	private final int TICKS_PER_MINUTE = 1200;
 	
 	public void onEnable() {
 		configYml = new ConfigAccessor(this, "config.yml");
@@ -43,8 +45,9 @@ public class TidyPlugin extends JavaPlugin {
 		getCommand("sticky").setExecutor(new StickyCommand(this));
 		
 		Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new SaveChangedIssuesTask(this), 2400L, 2400L); // 2400L = 2 minutes (TODO make the number of minutes configurable)
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new KillExpiredIssuesTask(this), 2400L, 2400L);
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new KillExpiredIssuesTask(this), 12000L, 12000L); // every 10 minutes
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new NotifyServerStaffTask(this), 6000L, 6000L);   // every  5 minutes
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new SaveChangedIssuesTask(this), 2400L, 2400L);   // every  2 minutes
 	}
 	
 	public IssueManager getIssueManager() {
