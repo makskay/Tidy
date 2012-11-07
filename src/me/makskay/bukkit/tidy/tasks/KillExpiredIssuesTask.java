@@ -13,15 +13,17 @@ public class KillExpiredIssuesTask implements Runnable { // TODO this needs to b
 
 	public void run() {
 		boolean isOpen = true;
+		boolean isSticky = false;
 		String key     = "";
 		Set<String> keys = plugin.issuesYml.getConfig().getConfigurationSection("issues").getKeys(false);
-		while (isOpen) {
+		while (isOpen || isSticky) {
 			if (!keys.iterator().hasNext()) {
 				return;
 			}
 			
 			key = keys.iterator().next();
 			isOpen = plugin.issuesYml.getConfig().getBoolean("issues." + key + ".open");
+			isSticky = plugin.issuesYml.getConfig().getBoolean("issues." + key + ".sticky");
 		}
 		
 		long currentTime = System.currentTimeMillis();
