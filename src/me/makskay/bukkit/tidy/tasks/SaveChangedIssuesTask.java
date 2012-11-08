@@ -28,8 +28,8 @@ public class SaveChangedIssuesTask implements Runnable {
 				break;
 			}
 			
-			if (iss.shouldBeDeleted()) {
-				delete = true;
+			delete = iss.shouldBeDeleted();
+			if (delete) {
 				issue = iss;
 				break;
 			}

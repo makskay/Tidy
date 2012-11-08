@@ -107,7 +107,7 @@ public class IssueReport {
 	}
 	
 	public boolean shouldBeDeleted() {
-		return ((!isOpen) && (timestamp - System.currentTimeMillis() > 259200000)); // delete after 3 days closed without change
+		return ((!isOpen) && (System.currentTimeMillis() - timestamp > 259200000)); // delete after 3 days closed without change
 	}
 	
 	public boolean isOpen() {
