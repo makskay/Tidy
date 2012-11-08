@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 public class IssueReport {
 	private String ownerName, description;
@@ -56,7 +56,7 @@ public class IssueReport {
 			comment = "see preceding de-sticky message for details";
 		}
 		
-		addComment(authorName, "Marked issue as " + ChatColor.GREEN + "open " + ChatColor.WHITE + "(" + comment + ")");
+		addComment(authorName, "Marked issue as " + statusColor() + "open " + ChatColor.WHITE + "(" + comment + ")");
 		return true;
 	}
 	
@@ -65,7 +65,7 @@ public class IssueReport {
 			return false;
 		}
 		
-		addComment(authorName, "Marked issue as " + ChatColor.RED + "resolved " + ChatColor.WHITE + "(" + comment + ")");
+		addComment(authorName, "Marked issue as " + statusColor() + "resolved " + ChatColor.WHITE + "(" + comment + ")");
 		return true;
 	}
 	
@@ -79,7 +79,7 @@ public class IssueReport {
 			comment = "see preceding close message for details";
 		}
 		
-		addComment(authorName, "Marked issue as " + ChatColor.DARK_RED + "sticky " + ChatColor.WHITE + "(" + comment + ")");
+		addComment(authorName, "Marked issue as " + statusColor() + "sticky " + ChatColor.WHITE + "(" + comment + ")");
 		return true;
 	}
 	
@@ -88,7 +88,7 @@ public class IssueReport {
 			return false;
 		}
 		
-		addComment(authorName, ChatColor.DARK_GREEN + "De-stickied" + ChatColor.WHITE + " issue (" + comment + ")");
+		addComment(authorName, statusColor() + "De-stickied" + ChatColor.WHITE + " issue (" + comment + ")");
 		return true;
 	}
 	
@@ -97,8 +97,8 @@ public class IssueReport {
 				+ location.getBlockY() + "," + location.getBlockZ();
 	}
 	
-	public boolean canBeEditedBy(Player player) {
-		return (player.getName().equals(ownerName)) || (player.hasPermission("tidy.staff"));
+	public boolean canBeEditedBy(CommandSender sender) {
+		return (sender.getName().equals(ownerName)) || (sender.hasPermission("tidy.staff"));
 	}
 	
 	public boolean isIntact() { // used to verify that this issue is valid on disk (and not producing corrupted cache objects)
@@ -108,6 +108,28 @@ public class IssueReport {
 	
 	public boolean shouldBeDeleted() {
 		return ((!isOpen) && (System.currentTimeMillis() - timestamp > 259200000)); // delete after 3 days closed without change
+																					// TODO make time configurable
+	}
+	
+	public String stringSummary() {
+		int charactersPerLine = 80; // TODO this is a placeholder, not a guaranteed value
+		String truncatedDescription = description;
+		if (description.length() > charactersPerLine) {
+			truncatedDescription = description.substring(0, charactersPerLine - 4) + "...";
+		}
+		return statusColor() + "#" + uid + ChatColor.GRAY + " (" + ownerName + "): " + ChatColor.WHITE + truncatedDescription; 
+	}
+	
+	private ChatColor statusColor() {
+		if (isOpen) {
+			return ChatColor.GREEN;
+		}
+		
+		if (isSticky) {
+			return ChatColor.DARK_RED;
+		}
+		
+		return ChatColor.RED;
 	}
 	
 	public boolean isOpen() {

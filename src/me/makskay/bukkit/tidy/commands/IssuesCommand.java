@@ -1,6 +1,10 @@
 package me.makskay.bukkit.tidy.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.makskay.bukkit.tidy.IssueManager;
+import me.makskay.bukkit.tidy.IssueReport;
 import me.makskay.bukkit.tidy.TidyPlugin;
 
 import org.bukkit.ChatColor;
@@ -17,10 +21,11 @@ public class IssuesCommand implements CommandExecutor {
 	
 	public boolean onCommand (CommandSender sender, Command command, String commandLabel, String[] args) {
 		int pageNumber = 0;
+		int issuesPerPage = 8; // TODO this should be configurable
 		boolean searchAllIssues = false;
 		
 		if (args.length == 0) {
-			pageNumber = 0;
+			// do nothing
 		}
 		
 		else if (args.length == 1) {
@@ -54,14 +59,45 @@ public class IssuesCommand implements CommandExecutor {
 			return false;
 		}
 		
-		if (searchAllIssues) {
-			// TODO generate a list of ALL issues (resolved included) at the specified page
+		int startIndex = pageNumber * issuesPerPage;
+		List<IssueReport> issues;
+		
+		if (searchAllIssues) { // generate a list of ALL issues (resolved included) at the specified page
+			if (sender.hasPermission("tidy.staff")) {
+				issues = issueManager.getCachedIssues().subList(startIndex, startIndex + issuesPerPage - 1);
+			}
+			
+			else {
+				issues = new ArrayList<IssueReport>();
+				for (IssueReport issue : issueManager.getCachedIssues()) {
+					if (issues.size() > issuesPerPage) {
+						break;
+					}
+					
+					if (issue.canBeEditedBy(sender)) {
+						issues.add(issue);
+					}
+				}
+			}
 		}
 		
-		else {
-			// TODO generate a list of OPEN issues (iterate over the cache and check for !resolved) at the specified page
+		else { // generate a list of OPEN issues (iterate over the cache and check for !resolved) at the specified page
+			issues = new ArrayList<IssueReport>();
+			for (IssueReport issue : issueManager.getCachedIssues()) {
+				if (issues.size() > issuesPerPage) {
+					break;
+				}
+				
+				if (issue.isOpen() && issue.canBeEditedBy(sender)) {
+					issues.add(issue);
+				}
+			}
 		}
 		
-		return false;
+		for (IssueReport issue : issues) {
+			sender.sendMessage(issue.stringSummary());
+		}
+		
+		return true;
 	}
 }
