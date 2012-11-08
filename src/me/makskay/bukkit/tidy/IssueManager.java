@@ -3,6 +3,7 @@ package me.makskay.bukkit.tidy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -21,25 +22,12 @@ public class IssueManager {
 			plugin.getLogger().warning("Your issues.yml file is corrupted. Deleting it and reloading the server is recommended.");
 		}
 		
-		for (int uid : issues.getIntegerList("OpenIssueIDs")) {
+		Set<String> keys = issues.getConfigurationSection("issues").getKeys(false);
+		for (String key : keys) { // pull all issues on disk into cache
 			try {
-				String path           = "issues." + uid + ".";
-				String ownerName      = issues.getString(path + "owner");
-				String description    = issues.getString(path + "description");
-				String[] locAsString  = issues.getString(path + "location").split(",");
-				Location loc          = new Location(Bukkit.getWorld(locAsString[0]), Integer.parseInt(locAsString[1]), 
-						Integer.parseInt(locAsString[2]), Integer.parseInt(locAsString[3]));
-				List<String> comments = issues.getStringList(path + "comments");
-				boolean isSticky      = issues.getBoolean(path + "sticky");
-				
-				IssueReport issue = new IssueReport(ownerName, description, uid, loc, comments, true, isSticky);
-				if (issue.isIntact()) {
-					cachedIssues.put(uid, issue);
-				}
-			}
-			
-			catch (Exception e) {
-				continue; // the issue entry is corrupt and can't be deciphered -- move on to the next one
+				getIssue(Integer.parseInt(key));
+			} catch (NumberFormatException e) {
+				continue;
 			}
 		}
 	}
@@ -72,8 +60,9 @@ public class IssueManager {
 			List<String> comments = issues.getStringList(path + "comments");
 			boolean isOpen        = issues.getBoolean(path + "open");
 			boolean isSticky      = issues.getBoolean(path + "sticky");
+			long timestamp        = issues.getLong(path + "timestamp");
 			
-			issue = new IssueReport(ownerName, description, uid, loc, comments, isOpen, isSticky);
+			issue = new IssueReport(ownerName, description, uid, loc, comments, isOpen, isSticky, timestamp);
 			if (issue.isIntact()) {
 				cachedIssues.put(uid, issue);
 			}

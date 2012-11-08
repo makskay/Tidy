@@ -13,6 +13,7 @@ public class IssueReport {
 	private Location location; // the location from which this issue was filed
 	private ArrayList<String> comments;
 	private boolean isOpen, isSticky, hasChanged;
+	private long timestamp;
 	
 	public IssueReport(String ownerName, String description, int uid, Location location) {
 		this.ownerName   = ownerName;
@@ -23,9 +24,11 @@ public class IssueReport {
 		this.isOpen      = true;
 		this.isSticky    = false;
 		this.hasChanged  = false;
+		this.timestamp   = System.currentTimeMillis();
 	}
 	
-	public IssueReport(String ownerName, String description, int uid, Location location, List<String> comments, boolean isOpen, boolean isSticky) {
+	public IssueReport(String ownerName, String description, int uid, Location location, 
+			List<String> comments, boolean isOpen, boolean isSticky, long timestamp) {
 		this.ownerName   = ownerName;
 		this.description = description;
 		this.uid         = uid;
@@ -34,6 +37,7 @@ public class IssueReport {
 		this.isOpen      = isOpen;
 		this.isSticky    = isSticky;
 		this.hasChanged  = false;
+		this.timestamp   = timestamp;
 		
 		this.comments.addAll(comments);
 	}
@@ -98,7 +102,12 @@ public class IssueReport {
 	}
 	
 	public boolean isIntact() { // used to verify that this issue is valid on disk (and not producing corrupted cache objects)
-		return (ownerName != null) && (description != null) && (uid > 0) && (location != null) && (comments != null);
+		return (ownerName != null) && (description != null) && (uid > 0) && 
+				(location != null) && (comments != null) && (timestamp > 0);
+	}
+	
+	public boolean shouldBeDeleted() {
+		return ((!isOpen) && (timestamp - System.currentTimeMillis() > 259200000)); // delete after 3 days closed without change
 	}
 	
 	public boolean isOpen() {

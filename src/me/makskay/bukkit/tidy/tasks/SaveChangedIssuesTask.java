@@ -21,8 +21,15 @@ public class SaveChangedIssuesTask implements Runnable {
 	
 	public void run() {
 		IssueReport issue = null;
+		boolean delete = false;
 		for (IssueReport iss : issueManager.getCachedIssues()) {
 			if (iss.hasChanged()) {
+				issue = iss;
+				break;
+			}
+			
+			if (iss.shouldBeDeleted()) {
+				delete = true;
 				issue = iss;
 				break;
 			}
@@ -34,10 +41,17 @@ public class SaveChangedIssuesTask implements Runnable {
 		
 		String path = "issues." + issue.getUid() + ".";
 		
-		issuesYml.getConfig().set(path + "open", issue.isOpen());
-		issuesYml.getConfig().set(path + "sticky", issue.isSticky());
-		issuesYml.getConfig().set(path + "comments", issue.getComments());
-		issuesYml.getConfig().set(path + "timestamp", System.currentTimeMillis());
+		if (delete) {
+			issuesYml.getConfig().set(path, null);
+		}
+		
+		else {
+			issuesYml.getConfig().set(path + "open", issue.isOpen());
+			issuesYml.getConfig().set(path + "sticky", issue.isSticky());
+			issuesYml.getConfig().set(path + "comments", issue.getComments());
+			issuesYml.getConfig().set(path + "timestamp", System.currentTimeMillis());
+		}
+		
 		issuesYml.saveConfig();
 		issuesYml.reloadConfig();
 	}

@@ -9,7 +9,6 @@ import me.makskay.bukkit.tidy.commands.IssuesCommand;
 import me.makskay.bukkit.tidy.commands.ReopenCommand;
 import me.makskay.bukkit.tidy.commands.ResolveCommand;
 import me.makskay.bukkit.tidy.commands.StickyCommand;
-import me.makskay.bukkit.tidy.tasks.KillExpiredIssuesTask;
 import me.makskay.bukkit.tidy.tasks.NotifyServerStaffTask;
 import me.makskay.bukkit.tidy.tasks.SaveChangedIssuesTask;
 
@@ -22,7 +21,7 @@ public class TidyPlugin extends JavaPlugin {
 	private IssueManager issueManager;
 	private PlayerManager playerManager;
 	private final long TICKS_PER_MINUTE = 1200L;
-	private long killExpiredIssuesDelay, notifyServerStaffDelay, saveChangedIssuesDelay;
+	private long notifyServerStaffDelay, saveChangedIssuesDelay;
 	
 	public void onEnable() {
 		configYml = new ConfigAccessor(this, "config.yml");
@@ -34,7 +33,6 @@ public class TidyPlugin extends JavaPlugin {
 		issuesYml.reloadConfig();
 		
 		FileConfiguration config = configYml.getConfig();
-		killExpiredIssuesDelay = config.getLong("MinutesBetweenExpiredIssuePurges") * TICKS_PER_MINUTE;
 		notifyServerStaffDelay = config.getLong("MinutesBetweenUnresolvedIssueNotifications") * TICKS_PER_MINUTE;
 		saveChangedIssuesDelay = config.getLong("MinutesBetweenChangedIssueSaves") * TICKS_PER_MINUTE;
 		
@@ -52,10 +50,6 @@ public class TidyPlugin extends JavaPlugin {
 		getCommand("sticky").setExecutor(new StickyCommand(this));
 		
 		Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
-		
-		if (killExpiredIssuesDelay > 0) {
-			Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new KillExpiredIssuesTask(this), 0, killExpiredIssuesDelay);
-		}
 		
 		if (notifyServerStaffDelay > 0) {
 			Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new NotifyServerStaffTask(this), 0, notifyServerStaffDelay);
