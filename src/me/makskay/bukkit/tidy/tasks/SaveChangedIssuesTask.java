@@ -39,17 +39,17 @@ public class SaveChangedIssuesTask implements Runnable {
 			return; // there were no issues with changes waiting to be saved
 		}
 		
-		String path = "issues." + issue.getUid() + ".";
+		String path = "issues." + issue.getUid();
 		
 		if (delete) {
 			issuesYml.getConfig().set(path, null);
 		}
 		
 		else {
-			issuesYml.getConfig().set(path + "open", issue.isOpen());
-			issuesYml.getConfig().set(path + "sticky", issue.isSticky());
-			issuesYml.getConfig().set(path + "comments", issue.getComments());
-			issuesYml.getConfig().set(path + "timestamp", System.currentTimeMillis());
+			issuesYml.getConfig().set(path + ".open", issue.isOpen());
+			issuesYml.getConfig().set(path + ".sticky", issue.isSticky());
+			issuesYml.getConfig().set(path + ".comments", issue.getComments());
+			issuesYml.getConfig().set(path + ".timestamp", System.currentTimeMillis());
 		}
 		
 		issuesYml.saveConfig();
