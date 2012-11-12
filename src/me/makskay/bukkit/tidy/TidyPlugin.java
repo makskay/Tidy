@@ -21,8 +21,8 @@ public class TidyPlugin extends JavaPlugin {
 	private IssueManager issueManager;
 	private PlayerManager playerManager;
 	private final long MILLISECONDS_PER_DAY = 86400000L, TICKS_PER_MINUTE = 1200L;
-	private static long issueLifetime;
 	private long notifyServerStaffDelay, saveChangedIssuesDelay;
+	static long issueLifetime;
 	
 	public void onEnable() {
 		configYml = new ConfigAccessor(this, "config.yml");
@@ -84,9 +84,5 @@ public class TidyPlugin extends JavaPlugin {
 	
 	public ConfigAccessor getConfigYml() {
 		return configYml;
-	}
-	
-	public static long issueLifetime() {
-		return issueLifetime;
 	}
 }

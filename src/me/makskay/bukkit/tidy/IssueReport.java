@@ -108,7 +108,7 @@ public class IssueReport {
 	}
 	
 	public boolean shouldBeDeleted() {
-		return ((!isOpen) && (System.currentTimeMillis() - timestamp > TidyPlugin.issueLifetime()));
+		return ((!isOpen) && (System.currentTimeMillis() - timestamp > TidyPlugin.issueLifetime));
 	}
 	
 	public String shortSummary() {
