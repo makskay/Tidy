@@ -95,7 +95,7 @@ public class IssuesCommand implements CommandExecutor {
 		}
 		
 		for (IssueReport issue : issues) {
-			sender.sendMessage(issue.stringSummary());
+			sender.sendMessage(issue.shortSummary());
 		}
 		
 		return true;

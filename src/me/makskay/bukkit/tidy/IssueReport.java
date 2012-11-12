@@ -111,13 +111,23 @@ public class IssueReport {
 																					// TODO make time configurable
 	}
 	
-	public String stringSummary() {
+	public String shortSummary() {
 		int charactersPerLine = 80; // TODO this is a placeholder, not a guaranteed value
 		String truncatedDescription = description;
 		if (description.length() > charactersPerLine) {
 			truncatedDescription = description.substring(0, charactersPerLine - 4) + "...";
 		}
 		return statusColor() + "#" + uid + ChatColor.GRAY + " (" + ownerName + "): " + ChatColor.WHITE + truncatedDescription; 
+	}
+	
+	public List<String> fullSummary() {
+		List<String> summary = new ArrayList<String>();
+		summary.add(ChatColor.GRAY + "Issue #" + ChatColor.LIGHT_PURPLE + uid  + ChatColor.GRAY +  
+				" ("+ statusDescriptor() + ChatColor.GRAY + ") by " + ChatColor.YELLOW + ownerName);
+		for (String comment : comments) {
+			summary.add("  " + comment);
+		}
+		return summary;
 	}
 	
 	private ChatColor statusColor() {
@@ -130,6 +140,24 @@ public class IssueReport {
 		}
 		
 		return ChatColor.RED;
+	}
+	
+	private String statusDescriptor() {
+		String descriptor = "";
+		
+		if (isOpen) {
+			descriptor = "unresolved";
+		}
+		
+		else if (isSticky) {
+			descriptor = "sticky";
+		}
+		
+		else {
+			descriptor = "resolved";
+		}
+		
+		return statusColor() + descriptor;
 	}
 	
 	public boolean isOpen() {
