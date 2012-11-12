@@ -12,6 +12,7 @@ public class IssueReport {
 	private int uid; // the ID number by which the issue is uniquely identifiable
 	private Location location; // the location from which this issue was filed
 	private ArrayList<String> comments;
+	private final static ChatColor NEUTRAL_TEXT_COLOR = ChatColor.GRAY;
 	private boolean isOpen, isSticky, hasChanged;
 	private long timestamp;
 	
@@ -43,7 +44,7 @@ public class IssueReport {
 	}
 	
 	public void addComment(String authorName, String comment) {
-		comments.add(authorName + ": " + comment);
+		comments.add(NEUTRAL_TEXT_COLOR + authorName + ": " + comment);
 	}
 	
 	public boolean markAsOpen(String authorName, String comment) { //returns false if issue was already open
@@ -56,7 +57,7 @@ public class IssueReport {
 			comment = "see preceding de-sticky message for details";
 		}
 		
-		addComment(authorName, "Marked issue as " + statusColor() + "open " + ChatColor.WHITE + "(" + comment + ")");
+		addComment(authorName, "Marked issue as " + statusColor() + "open " + NEUTRAL_TEXT_COLOR + "(" + comment + ")");
 		return true;
 	}
 	
@@ -65,7 +66,7 @@ public class IssueReport {
 			return false;
 		}
 		
-		addComment(authorName, "Marked issue as " + statusColor() + "resolved " + ChatColor.WHITE + "(" + comment + ")");
+		addComment(authorName, "Marked issue as " + statusColor() + "resolved " + NEUTRAL_TEXT_COLOR + "(" + comment + ")");
 		return true;
 	}
 	
@@ -79,7 +80,7 @@ public class IssueReport {
 			comment = "see preceding close message for details";
 		}
 		
-		addComment(authorName, "Marked issue as " + statusColor() + "sticky " + ChatColor.WHITE + "(" + comment + ")");
+		addComment(authorName, "Marked issue as " + statusColor() + "sticky " + NEUTRAL_TEXT_COLOR + "(" + comment + ")");
 		return true;
 	}
 	
@@ -88,7 +89,7 @@ public class IssueReport {
 			return false;
 		}
 		
-		addComment(authorName, statusColor() + "De-stickied" + ChatColor.WHITE + " issue (" + comment + ")");
+		addComment(authorName, statusColor() + "De-stickied" + NEUTRAL_TEXT_COLOR + " issue (" + comment + ")");
 		return true;
 	}
 	
@@ -107,8 +108,7 @@ public class IssueReport {
 	}
 	
 	public boolean shouldBeDeleted() {
-		return ((!isOpen) && (System.currentTimeMillis() - timestamp > 259200000)); // delete after 3 days closed without change
-																					// TODO make time configurable
+		return ((!isOpen) && (System.currentTimeMillis() - timestamp > TidyPlugin.issueLifetime()));
 	}
 	
 	public String shortSummary() {
@@ -117,13 +117,13 @@ public class IssueReport {
 		if (description.length() > charactersPerLine) {
 			truncatedDescription = description.substring(0, charactersPerLine - 4) + "...";
 		}
-		return statusColor() + "#" + uid + ChatColor.GRAY + " (" + ownerName + "): " + ChatColor.WHITE + truncatedDescription; 
+		return statusColor() + "#" + uid + NEUTRAL_TEXT_COLOR + " (" + ownerName + "): " + NEUTRAL_TEXT_COLOR + truncatedDescription; 
 	}
 	
 	public List<String> fullSummary() {
 		List<String> summary = new ArrayList<String>();
-		summary.add(ChatColor.GRAY + "Issue #" + ChatColor.LIGHT_PURPLE + uid  + ChatColor.GRAY +  
-				" ("+ statusDescriptor() + ChatColor.GRAY + ") by " + ChatColor.YELLOW + ownerName);
+		summary.add(NEUTRAL_TEXT_COLOR + "Issue #" + ChatColor.LIGHT_PURPLE + uid  + NEUTRAL_TEXT_COLOR +  
+				" ("+ statusDescriptor() + NEUTRAL_TEXT_COLOR + ") by " + ChatColor.YELLOW + ownerName);
 		for (String comment : comments) {
 			summary.add("  " + comment);
 		}
@@ -147,13 +147,9 @@ public class IssueReport {
 		
 		if (isOpen) {
 			descriptor = "unresolved";
-		}
-		
-		else if (isSticky) {
+		} else if (isSticky) {
 			descriptor = "sticky";
-		}
-		
-		else {
+		} else {
 			descriptor = "resolved";
 		}
 		

@@ -15,6 +15,9 @@ PanicWords:
   - help
   - need
 
+# How long an issue must sit without being changed before it is deleted altogether.
+IssueLifetimeInDays: 3
+
 # Set any of the following values to zero to disable the corresponding periodic task.
 # Disabling changed issue saves is not recommended, as the plugin will no longer keep track of issues if you do.
 

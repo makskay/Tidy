@@ -20,7 +20,8 @@ public class TidyPlugin extends JavaPlugin {
 	private ConfigAccessor configYml, issuesYml;
 	private IssueManager issueManager;
 	private PlayerManager playerManager;
-	private final long TICKS_PER_MINUTE = 1200L;
+	private final long MILLISECONDS_PER_DAY = 86400000L, TICKS_PER_MINUTE = 1200L;
+	private static long issueLifetime;
 	private long notifyServerStaffDelay, saveChangedIssuesDelay;
 	
 	public void onEnable() {
@@ -33,8 +34,9 @@ public class TidyPlugin extends JavaPlugin {
 		issuesYml.reloadConfig();
 		
 		FileConfiguration config = configYml.getConfig();
-		notifyServerStaffDelay = config.getLong("MinutesBetweenUnresolvedIssueNotifications") * TICKS_PER_MINUTE;
-		saveChangedIssuesDelay = config.getLong("MinutesBetweenChangedIssueSaves") * TICKS_PER_MINUTE;
+		issueLifetime            = config.getLong("IssueLifetimeInDays") * MILLISECONDS_PER_DAY;
+		notifyServerStaffDelay   = config.getLong("MinutesBetweenUnresolvedIssueNotifications") * TICKS_PER_MINUTE;
+		saveChangedIssuesDelay   = config.getLong("MinutesBetweenChangedIssueSaves") * TICKS_PER_MINUTE;
 		
 		issueManager  = new IssueManager(this);
 		playerManager = new PlayerManager(this);
@@ -82,5 +84,9 @@ public class TidyPlugin extends JavaPlugin {
 	
 	public ConfigAccessor getConfigYml() {
 		return configYml;
+	}
+	
+	public static long issueLifetime() {
+		return issueLifetime;
 	}
 }
