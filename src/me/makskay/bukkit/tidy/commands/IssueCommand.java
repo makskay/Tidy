@@ -1,8 +1,10 @@
 package me.makskay.bukkit.tidy.commands;
 
 import me.makskay.bukkit.tidy.IssueManager;
+import me.makskay.bukkit.tidy.IssueReport;
 import me.makskay.bukkit.tidy.TidyPlugin;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,6 +17,33 @@ public class IssueCommand implements CommandExecutor {
 	}
 	
 	public boolean onCommand (CommandSender sender, Command command, String commandLabel, String[] args) {
-		return false; // TODO Fill out with actual command implementation
+		if (args.length != 1) {
+			return false;
+		}
+		
+		int uid;
+		try {
+			uid = Integer.parseInt(args[0]);
+		} catch (NumberFormatException ex) {
+			sender.sendMessage(ChatColor.RED + "\"" +  args[0] + "\" isn't a valid issue ID number");
+			return true;
+		}
+		
+		IssueReport issue = issueManager.getIssue(uid);
+		if (issue == null) {
+			sender.sendMessage(ChatColor.RED + "Couldn't find issue #" + uid);
+			return true;
+		}
+		
+		if (!issue.canBeEditedBy(sender)) {
+			sender.sendMessage(ChatColor.RED + "You're not permitted to view details of that issue");
+			return true;
+		}
+		
+		for (String line : issue.fullSummary()) {
+			sender.sendMessage(line);
+		}
+		
+		return true;
 	}
 }
