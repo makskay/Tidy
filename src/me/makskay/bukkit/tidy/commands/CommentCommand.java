@@ -8,7 +8,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class CommentCommand implements CommandExecutor {
 	private IssueManager issueManager;
@@ -36,8 +35,7 @@ public class CommentCommand implements CommandExecutor {
 			return true;
 		}
 		
-		Player player = (Player) sender;
-		if ((player != null) && (!issue.canBeEditedBy(player))) {
+		if (!issue.canBeEditedBy(sender)) {
 			sender.sendMessage(ChatColor.RED + "You're not permitted to comment on issue #" + uid);
 			return true;
 		}
