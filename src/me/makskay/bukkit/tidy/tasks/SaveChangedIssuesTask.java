@@ -25,12 +25,14 @@ public class SaveChangedIssuesTask implements Runnable {
 		for (IssueReport iss : issueManager.getCachedIssues()) {
 			if (iss.hasChanged()) {
 				issue = iss;
+				issue.setHasChanged(false);
 				break;
 			}
 			
 			delete = iss.shouldBeDeleted();
 			if (delete) {
 				issue = iss;
+				issueManager.getCachedIssues().remove(issue);
 				break;
 			}
 		}

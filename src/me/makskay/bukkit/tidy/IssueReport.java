@@ -46,8 +46,13 @@ public class IssueReport {
 	
 	public void addComment(String authorName, String comment) {
 		comments.add(TidyPlugin.NEUTRAL_COLOR + authorName + ": " + comment);
+		setHasChanged(true);
 	}
 	
+	public void setHasChanged(boolean hasChanged) {
+		this.hasChanged = hasChanged;
+	}
+
 	public boolean markAsOpen(String authorName, String comment) { //returns false if issue was already open
 		if (isOpen) {
 			return false;
@@ -109,7 +114,7 @@ public class IssueReport {
 	}
 	
 	public boolean shouldBeDeleted() {
-		return ((!isOpen) && (System.currentTimeMillis() - timestamp > TidyPlugin.issueLifetime));
+		return ((!isOpen) && (!hasChanged) && (System.currentTimeMillis() - timestamp > TidyPlugin.issueLifetime));
 	}
 	
 	public String shortSummary() {
