@@ -23,8 +23,8 @@ public class NotifyServerStaffTask implements Runnable {
 		}
 		
 		if (count != 0) {
-			Bukkit.broadcast(ChatColor.GRAY + "There are currently " + ChatColor.GREEN + count + 
-					ChatColor.GRAY + " unresolved issues", "tidy.staff");
+			Bukkit.broadcast(TidyPlugin.NEUTRAL_COLOR + "There are currently " + ChatColor.GREEN + count + 
+					TidyPlugin.NEUTRAL_COLOR + " unresolved issues", "tidy.staff");
 		}
 	}
 

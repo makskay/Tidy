@@ -13,6 +13,7 @@ import me.makskay.bukkit.tidy.tasks.NotifyServerStaffTask;
 import me.makskay.bukkit.tidy.tasks.SaveChangedIssuesTask;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,6 +24,13 @@ public class TidyPlugin extends JavaPlugin {
 	private final long MILLISECONDS_PER_DAY = 86400000L, TICKS_PER_MINUTE = 1200L;
 	private long notifyServerStaffDelay, saveChangedIssuesDelay;
 	static long issueLifetime;
+	public static final ChatColor ERROR_COLOR      = ChatColor.RED,
+			                      NEUTRAL_COLOR    = ChatColor.GRAY, 
+			                      UNRESOLVED_COLOR = ChatColor.GREEN,
+			                      RESOLVED_COLOR   = ChatColor.RED,
+			                      STICKY_COLOR     = ChatColor.DARK_RED,
+			                      PLAYERNAME_COLOR = ChatColor.YELLOW,
+			                      HIGHLIGHT_COLOR  = ChatColor.LIGHT_PURPLE;
 	
 	public void onEnable() {
 		configYml = new ConfigAccessor(this, "config.yml");

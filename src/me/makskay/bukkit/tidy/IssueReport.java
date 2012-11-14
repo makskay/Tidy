@@ -3,6 +3,8 @@ package me.makskay.bukkit.tidy;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.makskay.bukkit.tidy.TidyPlugin;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
@@ -12,7 +14,6 @@ public class IssueReport {
 	private int uid; // the ID number by which the issue is uniquely identifiable
 	private Location location; // the location from which this issue was filed
 	private ArrayList<String> comments;
-	private final static ChatColor NEUTRAL_TEXT_COLOR = ChatColor.GRAY;
 	private boolean isOpen, isSticky, hasChanged;
 	private long timestamp;
 	
@@ -44,7 +45,7 @@ public class IssueReport {
 	}
 	
 	public void addComment(String authorName, String comment) {
-		comments.add(NEUTRAL_TEXT_COLOR + authorName + ": " + comment);
+		comments.add(TidyPlugin.NEUTRAL_COLOR + authorName + ": " + comment);
 	}
 	
 	public boolean markAsOpen(String authorName, String comment) { //returns false if issue was already open
@@ -57,7 +58,7 @@ public class IssueReport {
 			comment = "see preceding de-sticky message for details";
 		}
 		
-		addComment(authorName, "Marked issue as " + statusColor() + "open " + NEUTRAL_TEXT_COLOR + "(" + comment + ")");
+		addComment(authorName, "Marked issue as " + statusColor() + "open " + TidyPlugin.NEUTRAL_COLOR + "(" + comment + ")");
 		return true;
 	}
 	
@@ -66,7 +67,7 @@ public class IssueReport {
 			return false;
 		}
 		
-		addComment(authorName, "Marked issue as " + statusColor() + "resolved " + NEUTRAL_TEXT_COLOR + "(" + comment + ")");
+		addComment(authorName, "Marked issue as " + statusColor() + "resolved " + TidyPlugin.NEUTRAL_COLOR + "(" + comment + ")");
 		return true;
 	}
 	
@@ -80,7 +81,7 @@ public class IssueReport {
 			comment = "see preceding close message for details";
 		}
 		
-		addComment(authorName, "Marked issue as " + statusColor() + "sticky " + NEUTRAL_TEXT_COLOR + "(" + comment + ")");
+		addComment(authorName, "Marked issue as " + statusColor() + "sticky " + TidyPlugin.NEUTRAL_COLOR + "(" + comment + ")");
 		return true;
 	}
 	
@@ -89,7 +90,7 @@ public class IssueReport {
 			return false;
 		}
 		
-		addComment(authorName, statusColor() + "De-stickied" + NEUTRAL_TEXT_COLOR + " issue (" + comment + ")");
+		addComment(authorName, statusColor() + "De-stickied" + TidyPlugin.NEUTRAL_COLOR + " issue (" + comment + ")");
 		return true;
 	}
 	
@@ -117,13 +118,13 @@ public class IssueReport {
 		if (description.length() > charactersPerLine) {
 			truncatedDescription = description.substring(0, charactersPerLine - 4) + "...";
 		}
-		return statusColor() + "#" + uid + NEUTRAL_TEXT_COLOR + " (" + ownerName + "): " + NEUTRAL_TEXT_COLOR + truncatedDescription; 
+		return statusColor() + "#" + uid + TidyPlugin.NEUTRAL_COLOR + " (" + ownerName + "): " + TidyPlugin.NEUTRAL_COLOR + truncatedDescription; 
 	}
 	
 	public List<String> fullSummary() {
 		List<String> summary = new ArrayList<String>();
-		summary.add(NEUTRAL_TEXT_COLOR + "Issue #" + ChatColor.LIGHT_PURPLE + uid  + NEUTRAL_TEXT_COLOR +  
-				" ("+ statusDescriptor() + NEUTRAL_TEXT_COLOR + ") by " + ChatColor.YELLOW + ownerName);
+		summary.add(TidyPlugin.NEUTRAL_COLOR + "Issue #" + TidyPlugin.HIGHLIGHT_COLOR + uid  + TidyPlugin.NEUTRAL_COLOR +  
+				" ("+ statusDescriptor() + TidyPlugin.NEUTRAL_COLOR + ") by " + TidyPlugin.PLAYERNAME_COLOR + ownerName);
 		for (String comment : comments) {
 			summary.add("  " + comment);
 		}
@@ -132,14 +133,14 @@ public class IssueReport {
 	
 	private ChatColor statusColor() {
 		if (isOpen) {
-			return ChatColor.GREEN;
+			return TidyPlugin.UNRESOLVED_COLOR;
 		}
 		
 		if (isSticky) {
-			return ChatColor.DARK_RED;
+			return TidyPlugin.STICKY_COLOR;
 		}
 		
-		return ChatColor.RED;
+		return TidyPlugin.RESOLVED_COLOR;
 	}
 	
 	private String statusDescriptor() {

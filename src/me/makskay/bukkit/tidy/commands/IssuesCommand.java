@@ -7,7 +7,6 @@ import me.makskay.bukkit.tidy.IssueManager;
 import me.makskay.bukkit.tidy.IssueReport;
 import me.makskay.bukkit.tidy.TidyPlugin;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,7 +32,7 @@ public class IssuesCommand implements CommandExecutor {
 				pageNumber = Integer.parseInt(args[0]);
 			} catch (NumberFormatException ex) {
 				if (!args[0].equals("-all")) {
-					sender.sendMessage(ChatColor.RED + "\"" +  args[0] + "\" isn't a valid page number");
+					sender.sendMessage(TidyPlugin.ERROR_COLOR + "\"" +  args[0] + "\" isn't a valid page number");
 					return true;
 				}
 				
@@ -45,12 +44,12 @@ public class IssuesCommand implements CommandExecutor {
 			try {
 				pageNumber = Integer.parseInt(args[0]);
 			} catch (NumberFormatException ex) {
-				sender.sendMessage(ChatColor.RED + "\"" +  args[0] + "\" isn't a valid page number");
+				sender.sendMessage(TidyPlugin.ERROR_COLOR + "\"" +  args[0] + "\" isn't a valid page number");
 				return true;
 			}
 			
 			if (!args[1].equals("-all")) {
-				sender.sendMessage(ChatColor.RED + "\"" +  args[1] + "\" isn't a valid flag");
+				sender.sendMessage(TidyPlugin.ERROR_COLOR + "\"" +  args[1] + "\" isn't a valid flag");
 				return true;
 			}
 		}

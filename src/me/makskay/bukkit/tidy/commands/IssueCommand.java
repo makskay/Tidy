@@ -4,7 +4,6 @@ import me.makskay.bukkit.tidy.IssueManager;
 import me.makskay.bukkit.tidy.IssueReport;
 import me.makskay.bukkit.tidy.TidyPlugin;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,18 +24,18 @@ public class IssueCommand implements CommandExecutor {
 		try {
 			uid = Integer.parseInt(args[0]);
 		} catch (NumberFormatException ex) {
-			sender.sendMessage(ChatColor.RED + "\"" +  args[0] + "\" isn't a valid issue ID number");
+			sender.sendMessage(TidyPlugin.ERROR_COLOR + "\"" +  args[0] + "\" isn't a valid issue ID number");
 			return true;
 		}
 		
 		IssueReport issue = issueManager.getIssue(uid);
 		if (issue == null) {
-			sender.sendMessage(ChatColor.RED + "Couldn't find issue #" + uid);
+			sender.sendMessage(TidyPlugin.ERROR_COLOR + "Couldn't find issue #" + uid);
 			return true;
 		}
 		
 		if (!issue.canBeEditedBy(sender)) {
-			sender.sendMessage(ChatColor.RED + "You're not permitted to view details of that issue");
+			sender.sendMessage(TidyPlugin.ERROR_COLOR + "You're not permitted to view details of that issue");
 			return true;
 		}
 		
