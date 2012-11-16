@@ -25,4 +25,4 @@ IssueLifetimeInDays: 3
 MinutesBetweenUnresolvedIssueNotifications: 5
 
 # How often issue changes are automatically saved in the background.
-MinutesBetweenChangedIssueSaves: 2
+SecondsBetweenChangedIssueSaves: 30

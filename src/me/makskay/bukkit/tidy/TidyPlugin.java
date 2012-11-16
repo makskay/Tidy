@@ -21,7 +21,7 @@ public class TidyPlugin extends JavaPlugin {
 	private ConfigAccessor configYml, issuesYml;
 	private IssueManager issueManager;
 	private PlayerManager playerManager;
-	private final long MILLISECONDS_PER_DAY = 86400000L, TICKS_PER_MINUTE = 1200L;
+	private final long MILLISECONDS_PER_DAY = 86400000L, TICKS_PER_MINUTE = 1200L, TICKS_PER_SECOND = 20L;
 	private long notifyServerStaffDelay, saveChangedIssuesDelay;
 	static long issueLifetime;
 	public static final ChatColor ERROR_COLOR      = ChatColor.RED,
@@ -44,7 +44,7 @@ public class TidyPlugin extends JavaPlugin {
 		FileConfiguration config = configYml.getConfig();
 		issueLifetime            = config.getLong("IssueLifetimeInDays") * MILLISECONDS_PER_DAY;
 		notifyServerStaffDelay   = config.getLong("MinutesBetweenUnresolvedIssueNotifications") * TICKS_PER_MINUTE;
-		saveChangedIssuesDelay   = config.getLong("MinutesBetweenChangedIssueSaves") * TICKS_PER_MINUTE;
+		saveChangedIssuesDelay   = config.getLong("SecondsBetweenChangedIssueSaves") * TICKS_PER_SECOND;
 		
 		issueManager  = new IssueManager(this);
 		playerManager = new PlayerManager(this);
