@@ -47,6 +47,11 @@ commands:
     usage: /<command> <issue ID> <reason>
     permission: tidy.staff
     permission-message: You don't have permission to mark issues as sticky!
+  desticky:
+    description: Marks an issue as non-sticky (will expire as normal).
+    usage: /<command> <issue ID> <reason>
+    permission: tidy.staff
+    permission-message: You don't have permission to mark issues as non-sticky!
 
 permissions:
   tidy.user:

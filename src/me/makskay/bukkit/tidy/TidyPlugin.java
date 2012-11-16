@@ -36,10 +36,10 @@ public class TidyPlugin extends JavaPlugin {
 		configYml = new ConfigAccessor(this, "config.yml");
 		issuesYml = new ConfigAccessor(this, "issues.yml");
 		
-		configYml.saveDefaultConfig();
 		configYml.reloadConfig();
-		issuesYml.saveDefaultConfig();
+		configYml.saveDefaultConfig();
 		issuesYml.reloadConfig();
+		issuesYml.saveDefaultConfig();
 		
 		FileConfiguration config = configYml.getConfig();
 		issueLifetime            = config.getLong("IssueLifetimeInDays") * MILLISECONDS_PER_DAY;

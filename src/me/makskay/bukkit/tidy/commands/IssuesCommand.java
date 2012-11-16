@@ -59,11 +59,17 @@ public class IssuesCommand implements CommandExecutor {
 		}
 		
 		int startIndex = pageNumber * issuesPerPage;
-		List<IssueReport> issues;
+		List<IssueReport> issues = issueManager.getCachedIssues();
 		
 		if (searchAllIssues) { // generate a list of ALL issues (resolved included) at the specified page
 			if (sender.hasPermission("tidy.staff")) {
-				issues = issueManager.getCachedIssues().subList(startIndex, startIndex + issuesPerPage - 1);
+				try {
+					issues = issues.subList(startIndex, startIndex + issuesPerPage - 1);
+				}
+				
+				catch (IndexOutOfBoundsException ex) {
+					issues = issues.subList(0, issues.size());
+				}
 			}
 			
 			else {
@@ -82,8 +88,12 @@ public class IssuesCommand implements CommandExecutor {
 		
 		else { // generate a list of OPEN issues (iterate over the cache and check for !resolved) at the specified page
 			issues = new ArrayList<IssueReport>();
-			for (IssueReport issue : issueManager.getCachedIssues()) {
-				if (issues.size() > issuesPerPage) {
+			List<IssueReport> cachedIssues = issueManager.getCachedIssues();
+			int cacheSize = cachedIssues.size();
+			
+			for (IssueReport issue : cachedIssues) {
+				int size = issues.size();
+				if (size > issuesPerPage || size == cacheSize) {
 					break;
 				}
 				

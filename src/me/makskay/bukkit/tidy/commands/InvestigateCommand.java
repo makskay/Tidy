@@ -25,11 +25,12 @@ public class InvestigateCommand implements CommandExecutor {
 			return false; // needs exactly one argument: issue ID
 		}
 		
-		Player player = (Player) sender;
-		if (player == null) {
+		if (!(sender instanceof Player)) {
 			sender.sendMessage(TidyPlugin.ERROR_COLOR + "Only a player may investigate issues");
 			return true;
 		}
+		
+		Player player = (Player) sender;
 		
 		int uid;
 		try {

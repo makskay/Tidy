@@ -18,7 +18,7 @@ public class NotifyServerStaffTask implements Runnable {
 		int count = 0;
 		for (IssueReport issue : issueManager.getCachedIssues()) {
 			if (issue.isOpen()) {
-				count++;
+				count++; // TODO this count is EFFING WRONG 
 			}
 		}
 		

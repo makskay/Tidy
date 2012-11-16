@@ -63,16 +63,18 @@ public class IssueReport {
 			comment = "see preceding de-sticky message for details";
 		}
 		
-		addComment(authorName, "Marked issue as " + statusColor() + "open " + TidyPlugin.NEUTRAL_COLOR + "(" + comment + ")");
+		isOpen = true;
+		addComment(authorName, "Marked issue as " + statusColor() + "open " + TidyPlugin.NEUTRAL_COLOR + "(" + comment.trim() + ")");
 		return true;
 	}
 	
 	public boolean markAsClosed(String authorName, String comment) { //returns false if issue was already closed
-		if (isOpen) {
+		if (!isOpen) {
 			return false;
 		}
 		
-		addComment(authorName, "Marked issue as " + statusColor() + "resolved " + TidyPlugin.NEUTRAL_COLOR + "(" + comment + ")");
+		isOpen = false;
+		addComment(authorName, "Marked issue as " + statusColor() + "resolved " + TidyPlugin.NEUTRAL_COLOR + "(" + comment.trim() + ")");
 		return true;
 	}
 	
@@ -86,7 +88,8 @@ public class IssueReport {
 			comment = "see preceding close message for details";
 		}
 		
-		addComment(authorName, "Marked issue as " + statusColor() + "sticky " + TidyPlugin.NEUTRAL_COLOR + "(" + comment + ")");
+		isSticky = true;
+		addComment(authorName, "Marked issue as " + statusColor() + "sticky " + TidyPlugin.NEUTRAL_COLOR + "(" + comment.trim() + ")");
 		return true;
 	}
 	
@@ -95,7 +98,8 @@ public class IssueReport {
 			return false;
 		}
 		
-		addComment(authorName, statusColor() + "De-stickied" + TidyPlugin.NEUTRAL_COLOR + " issue (" + comment + ")");
+		isSticky = false;
+		addComment(authorName, statusColor() + "De-stickied" + TidyPlugin.NEUTRAL_COLOR + " issue (" + comment.trim() + ")");
 		return true;
 	}
 	
@@ -110,7 +114,7 @@ public class IssueReport {
 	
 	public boolean isIntact() { // used to verify that this issue is valid on disk (and not producing corrupted cache objects)
 		return (ownerName != null) && (description != null) && (uid > 0) && 
-				(location != null) && (comments != null) && (timestamp > 0);
+				(location != null) && (comments != null);
 	}
 	
 	public boolean shouldBeDeleted() {
@@ -123,12 +127,13 @@ public class IssueReport {
 		if (description.length() > charactersPerLine) {
 			truncatedDescription = description.substring(0, charactersPerLine - 4) + "...";
 		}
-		return statusColor() + "#" + uid + TidyPlugin.NEUTRAL_COLOR + " (" + ownerName + "): " + TidyPlugin.NEUTRAL_COLOR + truncatedDescription; 
+		return statusColor() + "#" + uid + TidyPlugin.NEUTRAL_COLOR + " (" + TidyPlugin.PLAYERNAME_COLOR + 
+				ownerName + TidyPlugin.NEUTRAL_COLOR + "): " + TidyPlugin.NEUTRAL_COLOR + truncatedDescription; 
 	}
 	
 	public List<String> fullSummary() {
 		List<String> summary = new ArrayList<String>();
-		summary.add(TidyPlugin.NEUTRAL_COLOR + "Issue #" + TidyPlugin.HIGHLIGHT_COLOR + uid  + TidyPlugin.NEUTRAL_COLOR +  
+		summary.add(TidyPlugin.NEUTRAL_COLOR + "Issue " + TidyPlugin.HIGHLIGHT_COLOR + "#" + uid  + TidyPlugin.NEUTRAL_COLOR +  
 				" ("+ statusDescriptor() + TidyPlugin.NEUTRAL_COLOR + ") by " + TidyPlugin.PLAYERNAME_COLOR + ownerName);
 		for (String comment : comments) {
 			summary.add("  " + comment);

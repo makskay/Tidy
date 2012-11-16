@@ -17,6 +17,7 @@ public class IssueManager {
 	public IssueManager(TidyPlugin plugin) {
 		FileConfiguration issues = plugin.getIssuesFile();
 		this.plugin  = plugin;
+		this.cachedIssues = new HashMap<Integer, IssueReport>();
 		this.nextUid = issues.getInt("NextIssueUID");
 		if (nextUid == 0) {
 			plugin.getLogger().warning("Your issues.yml file is corrupted. Deleting it and reloading the server is recommended.");
@@ -46,30 +47,33 @@ public class IssueManager {
 	public IssueReport getIssue(int uid) {
 		FileConfiguration issues = plugin.getIssuesFile();
 		IssueReport issue = cachedIssues.get(uid);
-		if (issue != null) {
-			return issue;
+		
+		if (issue == null) {
+			try {
+				String path           = "issues." + uid + ".";
+				String ownerName      = issues.getString(path + "owner");
+				String description    = issues.getString(path + "description");
+				String[] locAsString  = issues.getString(path + "location").split(",");
+				Location loc          = new Location(Bukkit.getWorld(locAsString[0]), Integer.parseInt(locAsString[1]), 
+						Integer.parseInt(locAsString[2]), Integer.parseInt(locAsString[3]));
+				List<String> comments = issues.getStringList(path + "comments");
+				boolean isOpen        = issues.getBoolean(path + "open");
+				boolean isSticky      = issues.getBoolean(path + "sticky");
+				long timestamp        = issues.getLong(path + "timestamp");
+				
+				issue = new IssueReport(ownerName, description, uid, loc, comments, isOpen, isSticky, timestamp);
+				if (issue.isIntact()) { 
+					cachedIssues.put(uid, issue);
+				}
+			}
+		
+			catch (Exception e) {
+				plugin.getLogger().info("fetching issue threw an exception");
+				return null; // no issue with that UID exists
+			}
 		}
 		
-		try {
-			String path           = "issues." + uid + ".";
-			String ownerName      = issues.getString(path + "owner");
-			String description    = issues.getString(path + "description");
-			String[] locAsString  = issues.getString(path + "location").split(",");
-			Location loc          = new Location(Bukkit.getWorld(locAsString[0]), Integer.parseInt(locAsString[1]), 
-					Integer.parseInt(locAsString[2]), Integer.parseInt(locAsString[3]));
-			List<String> comments = issues.getStringList(path + "comments");
-			boolean isOpen        = issues.getBoolean(path + "open");
-			boolean isSticky      = issues.getBoolean(path + "sticky");
-			long timestamp        = issues.getLong(path + "timestamp");
-			
-			issue = new IssueReport(ownerName, description, uid, loc, comments, isOpen, isSticky, timestamp);
-			if (issue.isIntact()) {
-				cachedIssues.put(uid, issue);
-			}
-			return issue;
-		} catch (Exception e) {
-			return null; // no issue with that UID exists
-		}
+		return issue;
 	}
 	
 	private void incrementNextUid() {

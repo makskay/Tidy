@@ -16,12 +16,12 @@ public class HelpmeCommand implements CommandExecutor {
 	}
 	
 	public boolean onCommand (CommandSender sender, Command command, String commandLabel, String[] args) {
-		Player player = (Player) sender;
-		if (player == null) {
+		if (!(sender instanceof Player)) {
 			sender.sendMessage(TidyPlugin.ERROR_COLOR + "Only a player may file a help request");
 			return true;
 		}
 		
+		Player player = (Player) sender;
 		if (args.length == 0) {
 			player.sendMessage(TidyPlugin.ERROR_COLOR + "Please fill out a description of your problem.");
 			player.sendMessage(TidyPlugin.NEUTRAL_COLOR + "Example usage: /helpme I've been griefed");
