@@ -52,6 +52,11 @@ commands:
     usage: /<command> <issue ID> <reason>
     permission: tidy.staff
     permission-message: You don't have permission to mark issues as non-sticky!
+  tidyup:
+    description: Deletes all resolved issues, with the exception of stickies.
+    usage: /<command>
+    permission: tidy.admin
+    permission-message: You don't have permission to clean up resolved issues!
 
 permissions:
   tidy.user:
@@ -59,4 +64,7 @@ permissions:
     default: true
   tidy.staff:
     description: Gives access to Tidy's global issue-management commands
+    default: op
+  tidy.admin:
+    description: Gives access to Tidy's high-level configuration-related commands
     default: op

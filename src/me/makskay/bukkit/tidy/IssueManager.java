@@ -40,8 +40,14 @@ public class IssueManager {
 		return issue;
 	}
 	
-	public void purge() {
-		// TODO Kill every closed non-sticky issue
+	public void purge() { // mark all resolved, non-sticky issues for deletion
+		for (IssueReport issue : cachedIssues.values()) {
+			if (!issue.isOpen() && !issue.isSticky()) {
+				issue.setShouldBeDeleted(true);
+				issue.setHasChanged(true);
+			}
+		}
+		
 		// TODO Rebase UIDs
 	}
 	

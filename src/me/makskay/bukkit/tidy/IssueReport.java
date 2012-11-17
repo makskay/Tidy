@@ -14,7 +14,7 @@ public class IssueReport {
 	private int uid; // the ID number by which the issue is uniquely identifiable
 	private Location location; // the location from which this issue was filed
 	private ArrayList<String> comments;
-	private boolean isOpen, isSticky, hasChanged;
+	private boolean isOpen, isSticky, hasChanged, mustDelete;
 	private long timestamp;
 	
 	public IssueReport(String ownerName, String description, int uid, Location location) {
@@ -26,6 +26,7 @@ public class IssueReport {
 		this.isOpen      = true;
 		this.isSticky    = false;
 		this.hasChanged  = false;
+		this.mustDelete  = false;
 		this.timestamp   = System.currentTimeMillis();
 	}
 	
@@ -39,6 +40,7 @@ public class IssueReport {
 		this.isOpen      = isOpen;
 		this.isSticky    = isSticky;
 		this.hasChanged  = false;
+		this.mustDelete  = false;
 		this.timestamp   = timestamp;
 		
 		this.comments.addAll(comments);
@@ -117,7 +119,15 @@ public class IssueReport {
 				(location != null) && (comments != null);
 	}
 	
+	public void setShouldBeDeleted(boolean mustDelete) {
+		this.mustDelete = mustDelete;
+	}
+	
 	public boolean shouldBeDeleted() {
+		if (mustDelete) {
+			return true;
+		}
+		
 		return ((!isOpen) && (!hasChanged) && (System.currentTimeMillis() - timestamp > TidyPlugin.issueLifetime));
 	}
 	

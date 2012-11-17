@@ -9,6 +9,7 @@ import me.makskay.bukkit.tidy.commands.IssuesCommand;
 import me.makskay.bukkit.tidy.commands.ReopenCommand;
 import me.makskay.bukkit.tidy.commands.ResolveCommand;
 import me.makskay.bukkit.tidy.commands.StickyCommand;
+import me.makskay.bukkit.tidy.commands.TidyupCommand;
 import me.makskay.bukkit.tidy.tasks.NotifyServerStaffTask;
 import me.makskay.bukkit.tidy.tasks.SaveChangedIssuesTask;
 
@@ -58,6 +59,7 @@ public class TidyPlugin extends JavaPlugin {
 		getCommand("reopen").setExecutor(new ReopenCommand(this));
 		getCommand("resolve").setExecutor(new ResolveCommand(this));
 		getCommand("sticky").setExecutor(new StickyCommand(this));
+		getCommand("tidyup").setExecutor(new TidyupCommand(this));
 		
 		Bukkit.getPluginManager().registerEvents(new PlayerListener(this), this);
 		
