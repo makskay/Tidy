@@ -72,6 +72,26 @@ public class TidyPlugin extends JavaPlugin {
 		}
 	}
 	
+	public void onDisable() {
+		for (IssueReport issue : issueManager.getCachedIssues()) {
+			if (issue.hasChanged()) {
+				String path = "issues." + issue.getUid();
+				if (issue.shouldBeDeleted()) {
+					issuesYml.getConfig().set(path, null);
+				}
+				
+				else {
+					issuesYml.getConfig().set(path + ".open", issue.isOpen());
+					issuesYml.getConfig().set(path + ".sticky", issue.isSticky());
+					issuesYml.getConfig().set(path + ".comments", issue.getComments());
+					issuesYml.getConfig().set(path + ".timestamp", System.currentTimeMillis());
+				}
+			}
+		}
+		
+		issuesYml.saveConfig();
+	}
+	
 	public IssueManager getIssueManager() {
 		return issueManager;
 	}
