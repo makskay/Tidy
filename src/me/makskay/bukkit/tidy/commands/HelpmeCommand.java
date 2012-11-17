@@ -42,6 +42,7 @@ public class HelpmeCommand implements CommandExecutor {
 		Bukkit.broadcast(TidyPlugin.PLAYERNAME_COLOR + playername + 
 				TidyPlugin.NEUTRAL_COLOR + " just filed a new issue report", "tidy.staff");
 		Bukkit.broadcast(issue.shortSummary(), "tidy.staff");
+		issue.setHasChanged(true);
 		return true;
 	}
 }
