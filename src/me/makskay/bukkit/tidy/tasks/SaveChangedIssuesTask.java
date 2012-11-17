@@ -48,6 +48,9 @@ public class SaveChangedIssuesTask implements Runnable {
 		}
 		
 		else {
+			issuesYml.getConfig().set(path + ".owner", issue.getOwnerName());
+			issuesYml.getConfig().set(path + ".description", issue.getDescription());
+			issuesYml.getConfig().set(path + ".location", issue.getLocationString());
 			issuesYml.getConfig().set(path + ".open", issue.isOpen());
 			issuesYml.getConfig().set(path + ".sticky", issue.isSticky());
 			issuesYml.getConfig().set(path + ".comments", issue.getComments());
