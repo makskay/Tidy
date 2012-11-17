@@ -103,10 +103,19 @@ public class IssuesCommand implements CommandExecutor {
 			}
 		}
 		
+		if (issues.size() == 0) {
+			sender.sendMessage(TidyPlugin.ERROR_COLOR + "No issues matching the search criteria could be found");
+			if (!searchAllIssues) {
+				sender.sendMessage(TidyPlugin.NEUTRAL_COLOR + 
+						"Consider broadening the search to include resolved issues: /issues -all");
+			}
+			return true;
+		}
+		
+		sender.sendMessage(TidyPlugin.NEUTRAL_COLOR + "-- Issues --");
 		for (IssueReport issue : issues) {
 			sender.sendMessage(issue.shortSummary());
 		}
-		
 		return true;
 	}
 }

@@ -135,6 +135,7 @@ public class IssueReport {
 		List<String> summary = new ArrayList<String>();
 		summary.add(TidyPlugin.NEUTRAL_COLOR + "Issue " + TidyPlugin.HIGHLIGHT_COLOR + "#" + uid  + TidyPlugin.NEUTRAL_COLOR +  
 				" ("+ statusDescriptor() + TidyPlugin.NEUTRAL_COLOR + ") by " + TidyPlugin.PLAYERNAME_COLOR + ownerName);
+		summary.add("  " + TidyPlugin.NEUTRAL_COLOR + ownerName + ": " + description);
 		for (String comment : comments) {
 			summary.add("  " + comment);
 		}

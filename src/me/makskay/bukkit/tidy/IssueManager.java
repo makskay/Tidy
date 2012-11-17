@@ -33,10 +33,11 @@ public class IssueManager {
 		}
 	}
 	
-	public void registerIssue(String ownerName, String description, Location loc) {
+	public IssueReport registerIssue(String ownerName, String description, Location loc) {
 		IssueReport issue = new IssueReport(ownerName, description, nextUid, loc);
 		cachedIssues.put(nextUid, issue); // pull this issue into cached memory
 		incrementNextUid(); // the next issue will be assigned the next greatest integer as a UID
+		return issue;
 	}
 	
 	public void purge() {
@@ -68,7 +69,6 @@ public class IssueManager {
 			}
 		
 			catch (Exception e) {
-				plugin.getLogger().info("fetching issue threw an exception");
 				return null; // no issue with that UID exists
 			}
 		}

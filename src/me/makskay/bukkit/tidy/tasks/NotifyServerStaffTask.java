@@ -18,11 +18,16 @@ public class NotifyServerStaffTask implements Runnable {
 		int count = 0;
 		for (IssueReport issue : issueManager.getCachedIssues()) {
 			if (issue.isOpen()) {
-				count++; // TODO this count is EFFING WRONG 
+				count++;
 			}
 		}
 		
-		if (count != 0) {
+		if (count == 1) {
+			Bukkit.broadcast(TidyPlugin.NEUTRAL_COLOR + "There is currently " + ChatColor.GREEN + count + 
+					TidyPlugin.NEUTRAL_COLOR + " unresolved issue", "tidy.staff");
+		}
+		
+		else if (count > 0) {
 			Bukkit.broadcast(TidyPlugin.NEUTRAL_COLOR + "There are currently " + ChatColor.GREEN + count + 
 					TidyPlugin.NEUTRAL_COLOR + " unresolved issues", "tidy.staff");
 		}

@@ -1,8 +1,10 @@
 package me.makskay.bukkit.tidy.commands;
 
 import me.makskay.bukkit.tidy.IssueManager;
+import me.makskay.bukkit.tidy.IssueReport;
 import me.makskay.bukkit.tidy.TidyPlugin;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -33,8 +35,13 @@ public class HelpmeCommand implements CommandExecutor {
 			description = description + word + " ";
 		}
 		
-		issueManager.registerIssue(player.getName(), description.trim(), player.getLocation());
-		player.sendMessage(TidyPlugin.NEUTRAL_COLOR + "Your help request has been filed and will be investigated as soon as possible");
+		String playername = player.getName();
+		IssueReport issue = issueManager.registerIssue(playername, description.trim(), player.getLocation());
+		player.sendMessage(TidyPlugin.NEUTRAL_COLOR + "Your help request (" + TidyPlugin.UNRESOLVED_COLOR + issue.getUid() + 
+				TidyPlugin.NEUTRAL_COLOR + ") has been filed and will be investigated as soon as possible");
+		Bukkit.broadcast(TidyPlugin.PLAYERNAME_COLOR + playername + 
+				TidyPlugin.NEUTRAL_COLOR + " just filed a new issue report", "tidy.staff");
+		Bukkit.broadcast(issue.shortSummary(), "tidy.staff");
 		return true;
 	}
 }
