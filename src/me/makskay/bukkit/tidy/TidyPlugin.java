@@ -1,5 +1,7 @@
 package me.makskay.bukkit.tidy;
 
+import java.util.List;
+
 import me.makskay.bukkit.tidy.commands.CommentCommand;
 import me.makskay.bukkit.tidy.commands.DestickyCommand;
 import me.makskay.bukkit.tidy.commands.HelpmeCommand;
@@ -22,9 +24,12 @@ public class TidyPlugin extends JavaPlugin {
 	private ConfigAccessor configYml, issuesYml;
 	private IssueManager issueManager;
 	private PlayerManager playerManager;
+	private StorageManager storageManager;
 	private final long MILLISECONDS_PER_DAY = 86400000L, TICKS_PER_MINUTE = 1200L, TICKS_PER_SECOND = 20L;
 	private long notifyServerStaffDelay, saveChangedIssuesDelay;
 	static long issueLifetime;
+	static int panicTolerance;
+	static List<String> panicWords;
 	public static final ChatColor ERROR_COLOR      = ChatColor.RED,
 			                      NEUTRAL_COLOR    = ChatColor.GRAY, 
 			                      UNRESOLVED_COLOR = ChatColor.GREEN,
@@ -46,9 +51,12 @@ public class TidyPlugin extends JavaPlugin {
 		issueLifetime            = config.getLong("IssueLifetimeInDays") * MILLISECONDS_PER_DAY;
 		notifyServerStaffDelay   = config.getLong("MinutesBetweenUnresolvedIssueNotifications") * TICKS_PER_MINUTE;
 		saveChangedIssuesDelay   = config.getLong("SecondsBetweenChangedIssueSaves") * TICKS_PER_SECOND;
+		panicWords               = config.getStringList("PanicWords");
+		panicTolerance           = config.getInt("PanicTolerance");
 		
-		issueManager  = new IssueManager(this);
-		playerManager = new PlayerManager(this);
+		storageManager = new YamlStorageManager(this); // must be initialized before issueManager and playerManager
+		issueManager   = new IssueManager(this);
+		playerManager  = new PlayerManager(this);
 		
 		getCommand("comment").setExecutor(new CommentCommand(this));
 		getCommand("desticky").setExecutor(new DestickyCommand(this));
@@ -75,19 +83,13 @@ public class TidyPlugin extends JavaPlugin {
 	public void onDisable() {
 		for (IssueReport issue : issueManager.getCachedIssues()) {
 			if (issue.hasChanged()) {
-				String path = "issues." + issue.getUid();
 				if (issue.shouldBeDeleted()) {
-					issuesYml.getConfig().set(path, null);
+					storageManager.deleteIssue(issue);
 				}
 				
 				else {
-					issuesYml.getConfig().set(path + ".owner", issue.getOwnerName());
-					issuesYml.getConfig().set(path + ".description", issue.getDescription());
-					issuesYml.getConfig().set(path + ".location", issue.getLocationString());
-					issuesYml.getConfig().set(path + ".open", issue.isOpen());
-					issuesYml.getConfig().set(path + ".sticky", issue.isSticky());
-					issuesYml.getConfig().set(path + ".comments", issue.getComments());
-					issuesYml.getConfig().set(path + ".timestamp", System.currentTimeMillis());
+					storageManager.saveIssue(issue);
+					playerManager.addChangedIssue(issue.getOwnerName(), issue.getUid());
 				}
 			}
 		}
@@ -103,19 +105,11 @@ public class TidyPlugin extends JavaPlugin {
 		return playerManager;
 	}
 	
-	public FileConfiguration getIssuesFile() {
-		return issuesYml.getConfig();
+	public StorageManager getStorageManager() {
+		return storageManager;
 	}
 	
-	public FileConfiguration getConfigFile() {
-		return configYml.getConfig();
-	}
-	
-	public ConfigAccessor getIssuesYml() {
+	public ConfigAccessor getIssuesYml() { // TODO this probably shouldn't need to exist -- it's only called by YamlStorageManager, and only once
 		return issuesYml;
-	}
-	
-	public ConfigAccessor getConfigYml() {
-		return configYml;
 	}
 }
