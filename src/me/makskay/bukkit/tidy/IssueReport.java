@@ -5,9 +5,11 @@ import java.util.List;
 
 import me.makskay.bukkit.tidy.TidyPlugin;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class IssueReport {
 	private String ownerName, description;
@@ -47,8 +49,15 @@ public class IssueReport {
 	}
 	
 	public void addComment(String authorName, String comment) {
-		comments.add(TidyPlugin.NEUTRAL_COLOR + authorName + ": " + comment);
-		setHasChanged(true);
+		String fullComment = TidyPlugin.NEUTRAL_COLOR + authorName + ": " + comment;
+		comments.add(fullComment);
+		Player player = Bukkit.getOfflinePlayer(this.ownerName).getPlayer();
+		if (player != null) { // if the owner of this issue is online
+			player.sendMessage(TidyPlugin.NEUTRAL_COLOR + "One of your issues has changed:");
+			player.sendMessage(this.shortSummary());
+			player.sendMessage("  " + fullComment);
+		}
+		this.setHasChanged(true);
 	}
 	
 	public void setHasChanged(boolean hasChanged) {
@@ -152,7 +161,7 @@ public class IssueReport {
 		return summary;
 	}
 	
-	private ChatColor statusColor() {
+	public ChatColor statusColor() {
 		if (isOpen) {
 			return TidyPlugin.UNRESOLVED_COLOR;
 		}
