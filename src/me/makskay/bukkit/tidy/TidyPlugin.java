@@ -93,8 +93,6 @@ public class TidyPlugin extends JavaPlugin {
 				}
 			}
 		}
-		
-		issuesYml.saveConfig();
 	}
 	
 	public IssueManager getIssueManager() {
