@@ -40,7 +40,7 @@ public class HelpmeCommand implements CommandExecutor {
 		player.sendMessage(TidyPlugin.NEUTRAL_COLOR + "Your help request (" + TidyPlugin.UNRESOLVED_COLOR + issue.getUid() + 
 				TidyPlugin.NEUTRAL_COLOR + ") has been filed and will be investigated as soon as possible");
 		Bukkit.broadcast(TidyPlugin.PLAYERNAME_COLOR + playername + 
-				TidyPlugin.NEUTRAL_COLOR + " just filed a new issue report", "tidy.staff");
+				TidyPlugin.NEUTRAL_COLOR + " just filed a new issue report:", "tidy.staff");
 		Bukkit.broadcast(issue.shortSummary(), "tidy.staff");
 		issue.setHasChanged(true);
 		return true;

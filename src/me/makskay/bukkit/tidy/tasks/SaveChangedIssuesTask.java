@@ -16,7 +16,8 @@ public class SaveChangedIssuesTask implements Runnable {
 	private StorageManager storageManager;
 	
 	public SaveChangedIssuesTask(TidyPlugin plugin) {
-		this.issueManager  = plugin.getIssueManager();
+		this.issueManager   = plugin.getIssueManager();
+		this.storageManager = plugin.getStorageManager();
 	}
 	
 	public void run() {

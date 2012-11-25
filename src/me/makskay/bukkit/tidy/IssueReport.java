@@ -51,12 +51,17 @@ public class IssueReport {
 	public void addComment(String authorName, String comment) {
 		String fullComment = TidyPlugin.NEUTRAL_COLOR + authorName + ": " + comment;
 		comments.add(fullComment);
-		Player player = Bukkit.getOfflinePlayer(this.ownerName).getPlayer();
+		
+		Player player = null;
+		if (!this.ownerName.equals(authorName)) { // if the person who made the change isn't the person who owns the issue
+			player = Bukkit.getOfflinePlayer(this.ownerName).getPlayer();
+		}
 		if (player != null) { // if the owner of this issue is online
-			player.sendMessage(TidyPlugin.NEUTRAL_COLOR + "One of your issues has changed:");
+			player.sendMessage(TidyPlugin.NEUTRAL_COLOR + "One of your issues just changed:");
 			player.sendMessage(this.shortSummary());
 			player.sendMessage("  " + fullComment);
 		}
+		
 		this.setHasChanged(true);
 	}
 	
