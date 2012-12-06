@@ -1,7 +1,6 @@
-# Higher panic tolerance values require a chat message to be more panicked before being flagged.
-PanicTolerance: 2
+AutoUpdate: true
 
-# A message with more of these words is more likely to be flagged as panicked.
+PanicTolerance: 2
 PanicWords:
   - grief
   - griefer
@@ -15,14 +14,6 @@ PanicWords:
   - help
   - need
 
-# How long an issue must sit without being changed before it is deleted altogether.
 IssueLifetimeInDays: 3
-
-# Set any of the following values to zero to disable the corresponding periodic task.
-# Disabling changed issue saves is not recommended, as the plugin will no longer keep track of issues if you do.
-
-# How often currently-online staff are notified if there are unresolved issues.
 MinutesBetweenUnresolvedIssueNotifications: 5
-
-# How often issue changes are automatically saved in the background.
 SecondsBetweenChangedIssueSaves: 30

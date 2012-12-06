@@ -78,6 +78,11 @@ public class TidyPlugin extends JavaPlugin {
 		if (saveChangedIssuesDelay > 0) {
 			Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new SaveChangedIssuesTask(this), 0, saveChangedIssuesDelay);
 		}
+		
+		if (configYml.getConfig().getBoolean("AutoUpdate")) { // auto-updater stuff
+			@SuppressWarnings("unused")
+			Updater updater = new Updater(this, "tidy", this.getFile(), Updater.UpdateType.DEFAULT, false);
+		}
 	}
 	
 	public void onDisable() {
