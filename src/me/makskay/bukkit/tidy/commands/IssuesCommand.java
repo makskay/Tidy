@@ -68,7 +68,13 @@ public class IssuesCommand implements CommandExecutor {
 				}
 				
 				catch (IndexOutOfBoundsException ex) {
-					issues = issues.subList(0, issues.size());
+					try {
+						issues = issues.subList(startIndex, issues.size());
+					}
+					
+					catch (IndexOutOfBoundsException ex2) {
+						issues = issues.subList(0, issues.size());
+					}
 				}
 			}
 			
