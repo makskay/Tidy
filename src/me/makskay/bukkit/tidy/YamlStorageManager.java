@@ -12,8 +12,10 @@ public class YamlStorageManager implements StorageManager {
 	private ConfigAccessor issuesYml;
 	private TidyPlugin plugin;
 	
-	public YamlStorageManager(TidyPlugin plugin) {
-		issuesYml = plugin.getIssuesYml();
+	public YamlStorageManager(TidyPlugin plugin, String issuesFileName) {
+		issuesYml = new ConfigAccessor(plugin, issuesFileName);
+		issuesYml.reloadConfig();
+		issuesYml.saveDefaultConfig();
 	}
 	
 	public void saveIssue(IssueReport issue) {

@@ -21,7 +21,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class TidyPlugin extends JavaPlugin {
-	private ConfigAccessor configYml, issuesYml;
+	private ConfigAccessor configYml;
 	private IssueManager issueManager;
 	private PlayerManager playerManager;
 	private StorageManager storageManager;
@@ -40,12 +40,8 @@ public class TidyPlugin extends JavaPlugin {
 	
 	public void onEnable() {
 		configYml = new ConfigAccessor(this, "config.yml");
-		issuesYml = new ConfigAccessor(this, "issues.yml");
-		
 		configYml.reloadConfig();
 		configYml.saveDefaultConfig();
-		issuesYml.reloadConfig();
-		issuesYml.saveDefaultConfig();
 		
 		FileConfiguration config = configYml.getConfig();
 		issueLifetime            = config.getLong("IssueLifetimeInDays") * MILLISECONDS_PER_DAY;
@@ -54,7 +50,7 @@ public class TidyPlugin extends JavaPlugin {
 		panicWords               = config.getStringList("PanicWords");
 		panicTolerance           = config.getInt("PanicTolerance");
 		
-		storageManager = new YamlStorageManager(this); // must be initialized before issueManager and playerManager
+		storageManager = new YamlStorageManager(this, "issues.yml"); // must be initialized before issueManager and playerManager
 		issueManager   = new IssueManager(this);
 		playerManager  = new PlayerManager(this);
 		
@@ -110,9 +106,5 @@ public class TidyPlugin extends JavaPlugin {
 	
 	public StorageManager getStorageManager() {
 		return storageManager;
-	}
-	
-	public ConfigAccessor getIssuesYml() { // TODO this probably shouldn't need to exist -- it's only called by YamlStorageManager, and only once
-		return issuesYml;
 	}
 }
