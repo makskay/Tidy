@@ -1,4 +1,4 @@
-package me.makskay.bukkit.tidy;
+package me.makskay.tidy;
 
 import java.util.List;
 

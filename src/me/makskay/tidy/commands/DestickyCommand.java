@@ -1,23 +1,23 @@
-package me.makskay.bukkit.tidy.commands;
+package me.makskay.tidy.commands;
 
-import me.makskay.bukkit.tidy.IssueManager;
-import me.makskay.bukkit.tidy.IssueReport;
-import me.makskay.bukkit.tidy.TidyPlugin;
+import me.makskay.tidy.IssueManager;
+import me.makskay.tidy.IssueReport;
+import me.makskay.tidy.TidyPlugin;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class CommentCommand implements CommandExecutor {
+public class DestickyCommand implements CommandExecutor {
 	private IssueManager issueManager;
 	
-	public CommentCommand(TidyPlugin plugin) {
+	public DestickyCommand(TidyPlugin plugin) {
 		issueManager = plugin.getIssueManager();
 	}
 	
 	public boolean onCommand (CommandSender sender, Command command, String commandLabel, String[] args) {
 		if (args.length < 2) {
-			return false; // you need at least an issue ID and one word of comment material
+			return false; // you need an issue ID and at least one word of reasoning
 		}
 		
 		int uid;
@@ -34,18 +34,17 @@ public class CommentCommand implements CommandExecutor {
 			return true;
 		}
 		
-		if (!issue.canBeEditedBy(sender)) {
-			sender.sendMessage(TidyPlugin.ERROR_COLOR + "You're not permitted to comment on issue #" + uid);
-			return true;
-		}
-		
 		String comment = "";
 		for (int i = 1; i < args.length; i++) {
 			comment = comment + args[i] + " ";
 		}
 		
-		issue.addComment(sender.getName(), comment.trim());
-		sender.sendMessage(TidyPlugin.NEUTRAL_COLOR + "Added your comment to issue #" + uid);
+		if (issue.markAsNonSticky(sender.getName(), comment)) {
+			sender.sendMessage(TidyPlugin.NEUTRAL_COLOR + "De-stickied issue #" + uid);
+			return true;
+		}
+		
+		sender.sendMessage(TidyPlugin.ERROR_COLOR + "Issue #" + uid + " is not stickied");
 		return true;
 	}
 }

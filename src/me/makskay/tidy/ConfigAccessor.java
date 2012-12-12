@@ -1,4 +1,4 @@
-package me.makskay.bukkit.tidy;
+package me.makskay.tidy;
 
 /** Credit to SagaciousZed for this utility class.
  ** https://gist.github.com/3174347 

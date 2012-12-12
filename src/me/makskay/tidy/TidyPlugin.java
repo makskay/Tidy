@@ -1,19 +1,19 @@
-package me.makskay.bukkit.tidy;
+package me.makskay.tidy;
 
 import java.util.List;
 
-import me.makskay.bukkit.tidy.commands.CommentCommand;
-import me.makskay.bukkit.tidy.commands.DestickyCommand;
-import me.makskay.bukkit.tidy.commands.HelpmeCommand;
-import me.makskay.bukkit.tidy.commands.InvestigateCommand;
-import me.makskay.bukkit.tidy.commands.IssueCommand;
-import me.makskay.bukkit.tidy.commands.IssuesCommand;
-import me.makskay.bukkit.tidy.commands.ReopenCommand;
-import me.makskay.bukkit.tidy.commands.ResolveCommand;
-import me.makskay.bukkit.tidy.commands.StickyCommand;
-import me.makskay.bukkit.tidy.commands.TidyupCommand;
-import me.makskay.bukkit.tidy.tasks.NotifyServerStaffTask;
-import me.makskay.bukkit.tidy.tasks.SaveChangedIssuesTask;
+import me.makskay.tidy.commands.CommentCommand;
+import me.makskay.tidy.commands.DestickyCommand;
+import me.makskay.tidy.commands.HelpmeCommand;
+import me.makskay.tidy.commands.InvestigateCommand;
+import me.makskay.tidy.commands.IssueCommand;
+import me.makskay.tidy.commands.IssuesCommand;
+import me.makskay.tidy.commands.ReopenCommand;
+import me.makskay.tidy.commands.ResolveCommand;
+import me.makskay.tidy.commands.StickyCommand;
+import me.makskay.tidy.commands.TidyupCommand;
+import me.makskay.tidy.tasks.NotifyServerStaffTask;
+import me.makskay.tidy.tasks.SaveChangedIssuesTask;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

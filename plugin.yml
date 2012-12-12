@@ -4,7 +4,7 @@ version: 1.0
 author: makskay
 website: http://dev.bukkit.org/server-mods/Tidy
 
-main: me.makskay.bukkit.tidy.TidyPlugin
+main: me.makskay.tidy.TidyPlugin
 
 commands:
   comment:

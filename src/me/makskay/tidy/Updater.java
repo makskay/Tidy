@@ -4,7 +4,7 @@
  * This class provides the means to safetly and easily update a plugin, or check to see if it is updated using dev.bukkit.org
  */
 
-package me.makskay.bukkit.tidy;
+package me.makskay.tidy;
 
 import java.io.*;
 import java.net.MalformedURLException;

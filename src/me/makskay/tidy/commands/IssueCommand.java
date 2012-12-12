@@ -1,23 +1,23 @@
-package me.makskay.bukkit.tidy.commands;
+package me.makskay.tidy.commands;
 
-import me.makskay.bukkit.tidy.IssueManager;
-import me.makskay.bukkit.tidy.IssueReport;
-import me.makskay.bukkit.tidy.TidyPlugin;
+import me.makskay.tidy.IssueManager;
+import me.makskay.tidy.IssueReport;
+import me.makskay.tidy.TidyPlugin;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class StickyCommand implements CommandExecutor {
+public class IssueCommand implements CommandExecutor {
 	private IssueManager issueManager;
 	
-	public StickyCommand(TidyPlugin plugin) {
+	public IssueCommand(TidyPlugin plugin) {
 		issueManager = plugin.getIssueManager();
 	}
 	
 	public boolean onCommand (CommandSender sender, Command command, String commandLabel, String[] args) {
-		if (args.length < 2) {
-			return false; // you need an issue ID and at least one word of reasoning
+		if (args.length != 1) {
+			return false;
 		}
 		
 		int uid;
@@ -34,17 +34,15 @@ public class StickyCommand implements CommandExecutor {
 			return true;
 		}
 		
-		String comment = "";
-		for (int i = 1; i < args.length; i++) {
-			comment = comment + args[i] + " ";
-		}
-		
-		if (issue.markAsSticky(sender.getName(), comment)) {
-			sender.sendMessage(TidyPlugin.NEUTRAL_COLOR + "Stickied issue #" + uid);
+		if (!issue.canBeEditedBy(sender)) {
+			sender.sendMessage(TidyPlugin.ERROR_COLOR + "You're not permitted to view details of that issue");
 			return true;
 		}
 		
-		sender.sendMessage(TidyPlugin.ERROR_COLOR + "Issue #" + uid + " is already sticky");
+		for (String line : issue.fullSummary()) {
+			sender.sendMessage(line);
+		}
+		
 		return true;
 	}
 }

@@ -1,11 +1,11 @@
-package me.makskay.bukkit.tidy.tasks;
+package me.makskay.tidy.tasks;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
-import me.makskay.bukkit.tidy.IssueManager;
-import me.makskay.bukkit.tidy.IssueReport;
-import me.makskay.bukkit.tidy.TidyPlugin;
+import me.makskay.tidy.IssueManager;
+import me.makskay.tidy.IssueReport;
+import me.makskay.tidy.TidyPlugin;
 
 public class NotifyServerStaffTask implements Runnable {
 	private IssueManager issueManager;

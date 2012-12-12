@@ -1,7 +1,7 @@
-package me.makskay.bukkit.tidy.commands;
+package me.makskay.tidy.commands;
 
-import me.makskay.bukkit.tidy.IssueManager;
-import me.makskay.bukkit.tidy.TidyPlugin;
+import me.makskay.tidy.IssueManager;
+import me.makskay.tidy.TidyPlugin;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

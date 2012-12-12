@@ -1,17 +1,17 @@
-package me.makskay.bukkit.tidy.commands;
+package me.makskay.tidy.commands;
 
-import me.makskay.bukkit.tidy.IssueManager;
-import me.makskay.bukkit.tidy.IssueReport;
-import me.makskay.bukkit.tidy.TidyPlugin;
+import me.makskay.tidy.IssueManager;
+import me.makskay.tidy.IssueReport;
+import me.makskay.tidy.TidyPlugin;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-public class DestickyCommand implements CommandExecutor {
+public class ResolveCommand implements CommandExecutor {
 	private IssueManager issueManager;
 	
-	public DestickyCommand(TidyPlugin plugin) {
+	public ResolveCommand(TidyPlugin plugin) {
 		issueManager = plugin.getIssueManager();
 	}
 	
@@ -39,12 +39,12 @@ public class DestickyCommand implements CommandExecutor {
 			comment = comment + args[i] + " ";
 		}
 		
-		if (issue.markAsNonSticky(sender.getName(), comment)) {
-			sender.sendMessage(TidyPlugin.NEUTRAL_COLOR + "De-stickied issue #" + uid);
+		if (issue.markAsClosed(sender.getName(), comment)) {
+			sender.sendMessage(TidyPlugin.NEUTRAL_COLOR + "Resolved issue #" + uid);
 			return true;
 		}
 		
-		sender.sendMessage(TidyPlugin.ERROR_COLOR + "Issue #" + uid + " is not stickied");
+		sender.sendMessage(TidyPlugin.ERROR_COLOR + "Issue #" + uid + " is not marked as open");
 		return true;
 	}
 }

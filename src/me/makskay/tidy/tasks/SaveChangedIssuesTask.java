@@ -4,12 +4,12 @@
  * The frequency with which this task runs can be changed to improve performance.
  */
 
-package me.makskay.bukkit.tidy.tasks;
+package me.makskay.tidy.tasks;
 
-import me.makskay.bukkit.tidy.IssueManager;
-import me.makskay.bukkit.tidy.IssueReport;
-import me.makskay.bukkit.tidy.StorageManager;
-import me.makskay.bukkit.tidy.TidyPlugin;
+import me.makskay.tidy.IssueManager;
+import me.makskay.tidy.IssueReport;
+import me.makskay.tidy.StorageManager;
+import me.makskay.tidy.TidyPlugin;
 
 public class SaveChangedIssuesTask implements Runnable {
 	private IssueManager issueManager;

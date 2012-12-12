@@ -5,7 +5,7 @@
  * presence or absence of certain types of storage (i.e. an issues.yml file or SQL database.)
  */
 
-package me.makskay.bukkit.tidy;
+package me.makskay.tidy;
 
 import java.util.HashMap;
 

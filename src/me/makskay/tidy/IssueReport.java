@@ -1,9 +1,9 @@
-package me.makskay.bukkit.tidy;
+package me.makskay.tidy;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import me.makskay.bukkit.tidy.TidyPlugin;
+import me.makskay.tidy.TidyPlugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
