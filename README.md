@@ -7,5 +7,5 @@ Pull requests are welcomed, but will only be accepted if they conform to [Oracle
 ## Credits
 Thanks to the following people for their contributions to Tidy.
 
-* [SagaciousZed](https://github.com/SagaciousZed) -- original author of the ConfigAccessor class (powers saving and loading of custom .yml files)
-* [H31IX](https://github.com/h31ix) -- author of the Updater class (powers auto-installation of updates from dev.bukkit.org)
+* [SagaciousZed](https://github.com/SagaciousZed) - original author of the ConfigAccessor class (powers saving and loading of custom .yml files)
+* [H31IX](https://github.com/h31ix) - author of the Updater class (powers auto-installation of updates from dev.bukkit.org)
