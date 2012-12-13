@@ -76,8 +76,14 @@ public class TidyPlugin extends JavaPlugin {
 		}
 		
 		if (configYml.getConfig().getBoolean("AutoUpdate")) { // auto-updater stuff
-			@SuppressWarnings("unused")
-			Updater updater = new Updater(this, "tidy", this.getFile(), Updater.UpdateType.DEFAULT, false);
+			try {
+				@SuppressWarnings("unused")
+				Updater updater = new Updater(this, "tidy", this.getFile(), Updater.UpdateType.DEFAULT, false);
+			} 
+			
+			catch (Exception e) {
+				getLogger().info("Couldn't connect to BukkitDev to check for updates");
+			}
 		}
 	}
 	
