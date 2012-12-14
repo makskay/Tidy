@@ -24,7 +24,7 @@ public class IssueCommand implements CommandExecutor {
 		try {
 			uid = Integer.parseInt(args[0]);
 		} catch (NumberFormatException ex) {
-			sender.sendMessage(TidyPlugin.ERROR_COLOR + "\"" +  args[0] + "\" isn't a valid issue ID number");
+			sender.sendMessage(TidyPlugin.ERROR_COLOR + "\"" +  args[0] + "\" isn't a valid issue ID number!");
 			return true;
 		}
 		
@@ -35,7 +35,7 @@ public class IssueCommand implements CommandExecutor {
 		}
 		
 		if (!issue.canBeEditedBy(sender)) {
-			sender.sendMessage(TidyPlugin.ERROR_COLOR + "You're not permitted to view details of that issue");
+			sender.sendMessage(TidyPlugin.ERROR_COLOR + "You're not permitted to view details of that issue!");
 			return true;
 		}
 		

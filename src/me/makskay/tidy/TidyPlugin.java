@@ -80,7 +80,7 @@ public class TidyPlugin extends JavaPlugin {
 			} 
 			
 			catch (Exception e) {
-				getLogger().info("Couldn't connect to BukkitDev to check for updates");
+				getLogger().info("Couldn't connect to BukkitDev to check for updates.");
 			}
 		}
 	}

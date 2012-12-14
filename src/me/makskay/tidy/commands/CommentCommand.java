@@ -24,7 +24,7 @@ public class CommentCommand implements CommandExecutor {
 		try {
 			uid = Integer.parseInt(args[0]);
 		} catch (NumberFormatException ex) {
-			sender.sendMessage(TidyPlugin.ERROR_COLOR + "\"" +  args[0] + "\" isn't a valid issue ID number");
+			sender.sendMessage(TidyPlugin.ERROR_COLOR + "\"" +  args[0] + "\" isn't a valid issue ID number!");
 			return true;
 		}
 		

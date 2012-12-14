@@ -20,7 +20,7 @@ public class HelpmeCommand implements CommandExecutor {
 	
 	public boolean onCommand (CommandSender sender, Command command, String commandLabel, String[] args) {
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(TidyPlugin.ERROR_COLOR + "Only a player may file an issue report");
+			sender.sendMessage(TidyPlugin.ERROR_COLOR + "Only a player may file an issue report!");
 			return true;
 		}
 		

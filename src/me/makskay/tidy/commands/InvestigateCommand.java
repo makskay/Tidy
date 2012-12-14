@@ -26,7 +26,7 @@ public class InvestigateCommand implements CommandExecutor {
 		}
 		
 		if (!(sender instanceof Player)) {
-			sender.sendMessage(TidyPlugin.ERROR_COLOR + "Only a player may investigate issues");
+			sender.sendMessage(TidyPlugin.ERROR_COLOR + "Only a player may investigate issues!");
 			return true;
 		}
 		
@@ -37,7 +37,7 @@ public class InvestigateCommand implements CommandExecutor {
 			uid = Integer.parseInt(args[0]);
 		} catch (NumberFormatException ex) {
 			if (!args[0].equalsIgnoreCase("-end")) {
-				sender.sendMessage(TidyPlugin.ERROR_COLOR + "\"" +  args[0] + "\" isn't a valid issue ID number");
+				sender.sendMessage(TidyPlugin.ERROR_COLOR + "\"" +  args[0] + "\" isn't a valid issue ID number!");
 				return true;
 			}
 			
@@ -45,7 +45,7 @@ public class InvestigateCommand implements CommandExecutor {
 			
 			Location location = playerManager.getSavedLocationOf(player);
 			if (location == null) {
-				player.sendMessage(TidyPlugin.ERROR_COLOR + "You aren't currently investigating any issues");
+				player.sendMessage(TidyPlugin.ERROR_COLOR + "You aren't currently investigating any issues!");
 				return true;
 			}
 			
@@ -63,7 +63,7 @@ public class InvestigateCommand implements CommandExecutor {
 		
 		playerManager.saveLocationOf(player);
 		player.teleport(issue.getLocation());
-		player.sendMessage(TidyPlugin.NEUTRAL_COLOR + "Now investigating issue #" + uid + ".");
+		player.sendMessage(TidyPlugin.NEUTRAL_COLOR + "Now investigating issue #" + uid);
 		player.sendMessage(TidyPlugin.NEUTRAL_COLOR + "Type /investigate -end when you're done to return to where you left off.");
 		return true;
 	}

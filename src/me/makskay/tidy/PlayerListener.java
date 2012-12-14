@@ -32,12 +32,12 @@ public class PlayerListener implements Listener {
 		
 			if (count == 1) {
 				event.getPlayer().sendMessage(TidyPlugin.NEUTRAL_COLOR + "There is currently " + ChatColor.GREEN + count + 
-						TidyPlugin.NEUTRAL_COLOR + " unresolved issue");
+						TidyPlugin.NEUTRAL_COLOR + " unresolved issue.");
 			}
 		
 			else if (count > 0) {
 				event.getPlayer().sendMessage(TidyPlugin.NEUTRAL_COLOR + "There are currently " + ChatColor.GREEN + count + 
-						TidyPlugin.NEUTRAL_COLOR + " unresolved issues");
+						TidyPlugin.NEUTRAL_COLOR + " unresolved issues.");
 			}
 		}
 		

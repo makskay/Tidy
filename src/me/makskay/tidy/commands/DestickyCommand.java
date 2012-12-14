@@ -24,7 +24,7 @@ public class DestickyCommand implements CommandExecutor {
 		try {
 			uid = Integer.parseInt(args[0]);
 		} catch (NumberFormatException ex) {
-			sender.sendMessage(TidyPlugin.ERROR_COLOR + "\"" +  args[0] + "\" isn't a valid issue ID number");
+			sender.sendMessage(TidyPlugin.ERROR_COLOR + "\"" +  args[0] + "\" isn't a valid issue ID number!");
 			return true;
 		}
 		
@@ -44,7 +44,7 @@ public class DestickyCommand implements CommandExecutor {
 			return true;
 		}
 		
-		sender.sendMessage(TidyPlugin.ERROR_COLOR + "Issue #" + uid + " is not stickied");
+		sender.sendMessage(TidyPlugin.ERROR_COLOR + "Issue #" + uid + " isn't stickied!");
 		return true;
 	}
 }
