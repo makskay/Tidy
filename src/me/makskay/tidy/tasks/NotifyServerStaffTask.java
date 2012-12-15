@@ -44,15 +44,20 @@ public class NotifyServerStaffTask implements Runnable {
 			}
 		}
 		
-		if (count == 1) {
-			Bukkit.broadcast(TidyPlugin.NEUTRAL_COLOR + "There is currently " + ChatColor.GREEN + count + 
-					TidyPlugin.NEUTRAL_COLOR + " unresolved issue", "tidy.staff");
+		if (count < 1) {
+			return;
 		}
 		
-		else if (count > 0) {
-			Bukkit.broadcast(TidyPlugin.NEUTRAL_COLOR + "There are currently " + ChatColor.GREEN + count + 
-					TidyPlugin.NEUTRAL_COLOR + " unresolved issues", "tidy.staff");
+		else if (count == 1) {
+			Bukkit.broadcast(TidyPlugin.NEUTRAL_COLOR + "There is currently " + ChatColor.GREEN + count + 
+					TidyPlugin.NEUTRAL_COLOR + " unresolved issue.", "tidy.staff");
 		}
+		
+		else {
+			Bukkit.broadcast(TidyPlugin.NEUTRAL_COLOR + "There are currently " + ChatColor.GREEN + count + 
+					TidyPlugin.NEUTRAL_COLOR + " unresolved issues.", "tidy.staff");
+		}
+		
+		Bukkit.broadcast(TidyPlugin.NEUTRAL_COLOR + "Type /issues for details.", "tidy.staff");
 	}
-
 }

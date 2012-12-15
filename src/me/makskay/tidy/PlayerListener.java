@@ -84,7 +84,7 @@ public class PlayerListener implements Listener {
 		int panicLevel = 0;
 		
 		for (String word : message.split(" ")) {
-			if (TidyPlugin.panicWords.contains(word)) {
+			if (TidyPlugin.panicWords.contains(word.replaceAll("[^A-Za-z0-9]", "").toLowerCase())) {
 				panicLevel++;
 			}
 		}
