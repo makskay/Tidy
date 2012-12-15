@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-package me.makskay.tidy;
+package me.makskay.tidy.storage;
 
 import java.io.File;
 import java.io.IOException;

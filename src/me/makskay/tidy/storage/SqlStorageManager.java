@@ -20,9 +20,12 @@
  * SOFTWARE.
  */
 
-package me.makskay.tidy;
+package me.makskay.tidy.storage;
 
 import java.util.HashMap;
+
+import me.makskay.tidy.IssueReport;
+import me.makskay.tidy.TidyPlugin;
 
 public class SqlStorageManager implements StorageManager {
 	public SqlStorageManager(TidyPlugin plugin) {

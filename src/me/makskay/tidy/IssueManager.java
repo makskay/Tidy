@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import me.makskay.tidy.storage.StorageManager;
+
 import org.bukkit.Location;
 
 public class IssueManager {

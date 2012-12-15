@@ -33,6 +33,9 @@ import me.makskay.tidy.commands.IssuesCommand;
 import me.makskay.tidy.commands.ReopenCommand;
 import me.makskay.tidy.commands.ResolveCommand;
 import me.makskay.tidy.commands.StickyCommand;
+import me.makskay.tidy.storage.ConfigAccessor;
+import me.makskay.tidy.storage.StorageManager;
+import me.makskay.tidy.storage.YamlStorageManager;
 import me.makskay.tidy.tasks.NotifyServerStaffTask;
 import me.makskay.tidy.tasks.SaveChangedIssuesTask;
 

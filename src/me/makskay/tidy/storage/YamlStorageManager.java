@@ -20,11 +20,14 @@
  * SOFTWARE.
  */
 
-package me.makskay.tidy;
+package me.makskay.tidy.storage;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+
+import me.makskay.tidy.IssueReport;
+import me.makskay.tidy.TidyPlugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

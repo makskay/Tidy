@@ -24,8 +24,8 @@ package me.makskay.tidy.tasks;
 
 import me.makskay.tidy.IssueManager;
 import me.makskay.tidy.IssueReport;
-import me.makskay.tidy.StorageManager;
 import me.makskay.tidy.TidyPlugin;
+import me.makskay.tidy.storage.StorageManager;
 
 /** 
  ** Smooth, backgrounded saving of changed issues.
