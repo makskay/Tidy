@@ -30,7 +30,7 @@ Not convinced that Tidy is special? Take a look at the wide variety of time-savi
 > Did I mention sticky issues? If you want to hang onto a particular resolved issue and all the associated discussion and history, just mark it as sticky. Automatic resolved-issue purges will skip right over stickies, so you can get issues out of your open queue without worrying about losing them should they go too long without an update.
 
 === Tidy automatically reminds you when there's work to do
-> Server staff are given a brief digest of currently-open issues when they first log in to the server. The placement of a new issue immediately triggers a notification to all currently-online staff. Staff will even be periodically reminded of any unresolved issues while online.
+> Server staff are given a brief digest of currently-open issues when they first log in to the server. The creation of a new issue immediately triggers a notification to all currently-online staff. Staff will even be periodically reminded of any unresolved issues while online.
 
 === Tidy is self-sufficient
 > As an administrator, you're a busy person, and you want to save time wherever you can. I know this for a fact, because I've been there.
@@ -54,4 +54,3 @@ Not convinced that Tidy is special? Take a look at the wide variety of time-savi
 == About the developer
 * I'm also behind [[http://dev.bukkit.org/profiles/makskay/server-mods/|a number of other plugins]]. If you like the intuitive design and finely-tuned user experience of Tidy, be sure to check out my other work.
 * I'm an administrator on [[http://bit.ly/remyMCF|RemyPas's Minecraft server]]. If you want to see this (or my other plugins) in action, or if you just want to enjoy a unique and community-focused server experience, be sure to check it out.
-* I spend a lot of my own time, and a nonzero amount of my own money, developing and testing Tidy. If you enjoy using this or any of my other plugins, please consider donating (link) using the button towards the top right of this page. Want to help out but can't donate? You can always sign up for a free Dropbox account using [[http://db.tt/qq1Mdstk|my referral link]] so we both get some extra storage space.
